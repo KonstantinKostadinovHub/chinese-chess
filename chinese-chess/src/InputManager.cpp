@@ -1,5 +1,6 @@
 #include "InputManager.h"
 
+const Uint8* InputManager::m_keyboardState = new Uint8;
 int2 InputManager::m_mouseCoor = int2();
 bool InputManager::m_mouseIsPressed = bool();
 bool InputManager::m_mouseIsDoubleClicked = bool();
@@ -202,4 +203,18 @@ bool mouseIsRightPressed()
 bool mouseIsPressed()
 {
     return InputManager::mouseIsPressed();
+}
+
+bool isAnyKeyPressed()
+{
+    int numOfKeys = 322;
+
+    for (int i = 0; i < numOfKeys; i++)
+    {
+        if (InputManager::m_keyboardState[i])
+        {
+            return true;
+        }
+    }
+    return false;
 }

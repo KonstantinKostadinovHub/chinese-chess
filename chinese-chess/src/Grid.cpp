@@ -129,17 +129,17 @@ void Grid::loadPawns()
 	{
 		Pawn buff;
 
-		buff.m_coor.x = 0;
-		buff.m_coor.y = i;
-		buff.rect = m_gridSquares[0][i].rect;
+		buff.m_coor.x = i;
+		buff.m_coor.y = 0;
+		buff.rect = m_gridSquares[i][0].rect;
 		buff.texture = ConfigManager::m_pawn1;
 		D(buff.texture);
 		buff.m_owner = 1;
 		m_player1Pawns.push_back(buff);
 
-		buff.m_coor.x = BOARD_SIZE - 1;
-		buff.m_coor.y = i;
-		buff.rect = m_gridSquares[BOARD_SIZE - 1][i].rect;
+		buff.m_coor.x = i;
+		buff.m_coor.y = BOARD_SIZE - 1;
+		buff.rect = m_gridSquares[i][BOARD_SIZE - 1].rect;
 		buff.texture = ConfigManager::m_pawn2;
 		buff.m_owner = 2;
 		m_player2Pawns.push_back(buff);
