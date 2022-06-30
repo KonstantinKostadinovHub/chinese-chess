@@ -1,0 +1,5 @@
+Background_Music: Background.mp3
+
+ButtonC_Clicked_Music: ButtonClicked.mp3
+
+Place_Queen_Music: PlaceQueen.mp3

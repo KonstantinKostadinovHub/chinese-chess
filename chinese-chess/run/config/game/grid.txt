@@ -1,0 +1,9 @@
+squareSize: 150
+
+Player_On_Turn: 535 40 850 160
+
+Plyaer_1_And_2_On_Turn: player1OnTurn.bmp player2OnTurn.bmp
+
+Tutorial_Rect: 25 88 420 757
+
+Tutorial_Img: tutorial.bmp

@@ -1,0 +1,7 @@
+Path: hard.bmp
+
+Start_Rect: 1012 626 615 160
+
+Max_Increase: 30
+
+Increase_Per_Frame: 5

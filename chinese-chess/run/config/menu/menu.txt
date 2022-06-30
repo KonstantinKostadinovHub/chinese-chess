@@ -1,0 +1,23 @@
+Menu_Rect: 0 0 1920 1080
+
+Menu_Img: menu.bmp
+
+One_Player_Btn: onePlayerBtn.txt
+
+Two_Players_Btn: twoPlayersBtn.txt
+
+Exit_path: exitBtn.txt
+
+Rows_Rect: 275 280 450 120
+
+Rows_Img: rows.bmp
+
+Cols_Rect: 1129 280 450 120
+
+Cols_Img: cols.bmp
+
+Enter_Board_Size_Rect: 500 46 920 160
+
+Enter_Board_Size_Img: enterBoardSize.bmp
+
+Rows_And_Cols_Path: enterRows.txt enterCols.txt

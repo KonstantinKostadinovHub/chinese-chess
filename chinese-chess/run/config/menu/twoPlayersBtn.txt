@@ -1,0 +1,7 @@
+Path: twoPlayersBtn.bmp
+
+Start_Rect: 1019 803 670 160
+
+Max_Increase: 50
+
+Increase_Per_Frame: 5

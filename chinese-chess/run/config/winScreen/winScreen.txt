@@ -1,0 +1,11 @@
+Backgorund: Background.bmp
+
+PlayerRect: 508 250 900 320
+
+Player_1_2: Player1Wins.bmp Player2Wins.bmp
+
+PlayBtnPath: playBtn.txt
+
+ExitBtnPath: exitBtn.txt
+
+Defeat: defeat.bmp

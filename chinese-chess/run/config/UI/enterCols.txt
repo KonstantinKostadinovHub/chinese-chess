@@ -1,0 +1,9 @@
+backImage: inputField.bmp
+
+forImage: gridPossMove.bmp
+
+rect: 1104 520 500 120
+
+textRect: 1104 520 120
+
+opacityPerFrame: 50

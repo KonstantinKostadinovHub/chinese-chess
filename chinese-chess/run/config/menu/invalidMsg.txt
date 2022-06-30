@@ -1,0 +1,3 @@
+Invalid_Msg_Rect: 441 405 1038 370
+
+Invalid_Msg_Rect: invalidMsg.bmp
