@@ -31,7 +31,8 @@ public:
 	
 	void destroy();
 private:
-	
+	SDL_Texture* m_background;
+
 	Drawable m_player1OnTurn;
 	Drawable m_player2OnTurn;
 	Drawable m_tutorial;

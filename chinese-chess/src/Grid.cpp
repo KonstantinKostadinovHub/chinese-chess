@@ -46,7 +46,9 @@ void Grid::load()
 	m_hover.texture = loadTexture(GAME_FOLDER + "gridPossMove.bmp");
 	
 	SDL_Texture* modelSquareTexture;
-	modelSquareTexture = loadTexture(GAME_FOLDER + "gridEvenSquareTexture.bmp");
+	modelSquareTexture = loadTexture(GAME_FOLDER + "tile.bmp");
+	
+	m_background = loadTexture(GAME_FOLDER + "background.bmp");
 
 	coordinates.x = (Presenter::m_SCREEN_WIDTH - squareSize * BOARD_SIZE) / 2;
 	coordinates.y = (Presenter::m_SCREEN_HEIGHT - squareSize * BOARD_SIZE) / 2;	
@@ -67,6 +69,8 @@ void Grid::load()
 
 void Grid::draw()
 {
+	drawObject(m_background);
+
 	drawGridSquares();
 
 	drawAvailableMoves();
