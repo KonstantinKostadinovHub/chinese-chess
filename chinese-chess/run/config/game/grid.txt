@@ -1,5 +1,25 @@
 squareSize: 150
 
+rectW&H: 192 108
+
+texture: black.bmp
+player1_1: 100 100
+
+texture: yellow.bmp
+player1_2: 100 300
+
+texture: purple.bmp
+player2_1: 1500 100
+
+texture: green.bmp
+player2_2: 1500 300
+
+texture: blue.bmp
+player1Next: 900 100
+
+texture: red.bmp
+player2Next: 900 900
+
 Player_On_Turn: 535 40 850 160
 
 Plyaer_1_And_2_On_Turn: player1OnTurn.bmp player2OnTurn.bmp
