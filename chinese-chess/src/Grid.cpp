@@ -23,6 +23,14 @@ void Grid::load()
 	fstream stream;
 
 	int squareSize;
+	int2 cardDim;
+
+	m_player1Cards[0] = new Card;
+	m_player1Cards[1] = new Card;
+	m_player2Cards[0] = new Card;
+	m_player2Cards[1] = new Card;
+	m_player1nextMove = new Card;
+	m_player2nextMove = new Card;
 
 	stream.open(CONFIG_FOLDER + GAME_FOLDER + "grid.txt");
 
@@ -32,8 +40,41 @@ void Grid::load()
 	stream >> temp >> player1OnTurn >> player2OnTurn;
 	stream >> temp >> m_tutorial.rect.x >> m_tutorial.rect.y >> m_tutorial.rect.w >> m_tutorial.rect.h;
 	stream >> temp >> tutorailImg;
-	
+
+	stream >> temp >> cardDim.x >> cardDim.y;
+
+	stream >> temp >> temp;
+	m_player1Cards[0]->texture = loadTexture(GAME_FOLDER + temp);
+	stream >> temp >> m_player1Cards[0]->rect.x >> m_player1Cards[0]->rect.y;
+	m_player1Cards[0]->rect.w = cardDim.x;
+	m_player1Cards[0]->rect.h = cardDim.y;
+
+	stream >> temp >> temp;
+	m_player1Cards[1]->texture = loadTexture(GAME_FOLDER + temp);
+	stream >> temp >> m_player1Cards[1]->rect.x >> m_player1Cards[1]->rect.y;
+	m_player1Cards[1]->rect.w = cardDim.x;
+	m_player1Cards[1]->rect.h = cardDim.y;
+
+	stream >> temp >> temp;
+	m_player2Cards[0]->texture = loadTexture(GAME_FOLDER + temp);
+	stream >> temp >> m_player2Cards[0]->rect.x >> m_player2Cards[0]->rect.y;
+	m_player2Cards[0]->rect.w = cardDim.x;
+	m_player2Cards[0]->rect.h = cardDim.y;
+
+	stream >> temp >> temp;
+	m_player2Cards[1]->texture = loadTexture(GAME_FOLDER + temp);
+	stream >> temp >> m_player2Cards[1]->rect.x >> m_player2Cards[1]->rect.y;
+	m_player2Cards[1]->rect.w = cardDim.x;
+	m_player2Cards[1]->rect.h = cardDim.y;
+
 	stream.close();
+
+	m_player1Cards[0]->m_moves = { {0, -1} };
+	m_player1Cards[1]->m_moves = { {0, -2} };
+	m_player2Cards[0]->m_moves = { {1, -2} };
+	m_player2Cards[1]->m_moves = { {2, -2} };
+	m_player1nextMove->m_moves = { {2, 0} };
+	m_player2nextMove->m_moves = { {-2, 0} };
 
 	m_player2OnTurn.rect = m_player1OnTurn.rect;
 

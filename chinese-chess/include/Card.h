@@ -4,7 +4,7 @@
 
 #include "defines.h"
 
-class Card : Drawable
+class Card : public Drawable
 {
 public:
 	Card();
