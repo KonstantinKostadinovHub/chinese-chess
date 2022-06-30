@@ -195,8 +195,16 @@ void Grid::select()
 {
 	if (mouseIsPressed())
 	{
+		m_selected = false;
+
 		selectPawns();
 		selectCards();
+
+		if (!m_selected)
+		{
+			m_selectedCard = nullptr;
+			m_selectedPawn = nullptr;
+		}
 	}
 }
 
@@ -229,6 +237,7 @@ void Grid::selectPawns()
 
 	if (!selected)
 	{
+		m_selected = true;
 		if (m_selectedPawn != nullptr)
 		{
 			for (int r = 0; r < BOARD_SIZE; r++)
@@ -237,16 +246,18 @@ void Grid::selectPawns()
 				{
 					if (isMouseInRect(m_gridSquares[r][c].rect))
 					{
-						killPawn({ r, c });
+						if (possMove({ r, c }))
+						{
+							killPawn({ r, c });
+							m_selectedPawn->m_coor.x = r;
+							m_selectedPawn->m_coor.y = c;
 
-						m_selectedPawn->m_coor.x = r;
-						m_selectedPawn->m_coor.y = c;
+							m_selectedPawn->rect = m_gridSquares[r][c].rect;
 
-						m_selectedPawn->rect = m_gridSquares[r][c].rect;
+							m_onTurn = (m_onTurn == 1) + 1;
 
-						m_onTurn = (m_onTurn == 1) + 1;
-
-						m_selectedPawn = nullptr;
+							m_selectedPawn = nullptr;
+						}
 					}
 				}
 			}
@@ -256,7 +267,28 @@ void Grid::selectPawns()
 
 void Grid::selectCards()
 {
-
+	if (m_onTurn == 1)
+	{
+		for (int i = 0; i < 2; i++)
+		{
+			if (isMouseInRect(m_player1Cards[i]->rect))
+			{
+				m_selectedCard = m_player1Cards[i];
+				m_selected = true;
+			}
+		}
+	}
+	else if (m_onTurn == 2)
+	{
+		for (int i = 0; i < 2; i++)
+		{
+			if (isMouseInRect(m_player2Cards[i]->rect))
+			{
+				m_selectedCard = m_player2Cards[i];
+				m_selected = true;
+			}
+		}
+	}
 }
 
 void Grid::killPawn(int2 coor)
@@ -387,9 +419,16 @@ void Grid::calcAvailableMoves()
 */
 bool Grid::possMove(int2 coor)
 {
-	if (inGrid(coor, BOARD_SIZE, BOARD_SIZE))
+	if (m_selectedCard == nullptr || m_selectedPawn == nullptr)
 	{
-		return true;
+		return false;
+	}
+	for (auto& move : m_selectedCard->m_moves)
+	{
+		if (m_selectedPawn->m_coor + move == coor)
+		{
+			return true;
+		}
 	}
 	return false;
 }

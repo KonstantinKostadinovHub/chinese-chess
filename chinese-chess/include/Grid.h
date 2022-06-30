@@ -65,6 +65,8 @@ private:
 
 	int m_onTurn; // 0 - none, pos number - player
 
+	bool m_selected;
+
 	vector<int2> availableMoves(Pawn* pawn, Card* card);
 
 	void loadPawns();
