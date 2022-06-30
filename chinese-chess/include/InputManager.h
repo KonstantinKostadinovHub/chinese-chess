@@ -21,7 +21,7 @@ public:
 
     static int2 m_mouseCoor;
 
-    const Uint8* m_keyboardState;
+    static const Uint8* m_keyboardState;
 
     int m_scroll;
 
@@ -71,3 +71,4 @@ private:
 bool isMouseInRect(SDL_Rect rect);
 bool mouseIsRightPressed();
 bool mouseIsPressed();
+bool isAnyKeyPressed();

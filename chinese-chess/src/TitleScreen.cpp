@@ -42,13 +42,11 @@ void TitleScreen::run()
 	
 	drawObject(m_titleScreenText);
 
-	/*
-	if (world.m_inputManager.anyKeyIsPressed())
+	if (isAnyKeyPressed())
 	{
-		world.m_stateManager.changeGameState(GAME_STATE::MENU);
+		world.m_stateManager.changeGameState(GAME_STATE::GAME);
 		return;
 	}
-	*/
 }
 
 void TitleScreen::destroy()

@@ -1,6 +1,5 @@
 #include "Validator.h"
 
-
 bool canMove(int2 coor)
 {
 	return false;
@@ -18,8 +17,8 @@ bool isNumber(string data)
 
 	return true;
 }
-//
-///*
+
+//*
 //* give all the squares that are unavailable after we places a queen
 //*/
 //vector<int2> giveAvailableMoves(int2 coor, int rows, int colls)
