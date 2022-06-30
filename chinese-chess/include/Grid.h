@@ -56,6 +56,11 @@ private:
 	vector<Pawn> m_player1Pawns;
 	vector<Pawn> m_player2Pawns;
 
+	Card* m_player1Cards[2];
+	Card* m_player2Cards[2];
+	Card* m_player1nextMove;
+	Card* m_player2nextMove;
+
 	vector<Drawable*> m_availableMoves;
 
 	int m_onTurn; // 0 - none, pos number - player
