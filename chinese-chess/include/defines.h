@@ -101,6 +101,11 @@ struct int2
         return b;
     }
 
+    bool operator==(int2 a)
+    {
+        return (x == a.x && y == a.y);
+    }
+
 };
 
 struct float2

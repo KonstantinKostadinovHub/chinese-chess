@@ -66,6 +66,9 @@ private:
 	void loadCards();
 
 	void select();
+	void selectPawns();
+	void selectCards();
+	void killPawn(int2 coor);
 
 	void checkForClick();
 	void onHover();

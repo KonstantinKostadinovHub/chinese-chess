@@ -133,7 +133,6 @@ void Grid::loadPawns()
 		buff.m_coor.y = 0;
 		buff.rect = m_gridSquares[i][0].rect;
 		buff.texture = ConfigManager::m_pawn1;
-		D(buff.texture);
 		buff.m_owner = 1;
 		m_player1Pawns.push_back(buff);
 
@@ -153,6 +152,89 @@ void Grid::loadCards()
 
 void Grid::select()
 {
+	if (mouseIsPressed())
+	{
+		selectPawns();
+		selectCards();
+	}
+}
+
+void Grid::selectPawns()
+{
+	bool selected = false;
+
+	if (m_onTurn == 1)
+	{
+		for (int i = 0; i < m_player1Pawns.size(); i++)
+		{
+			if (isMouseInRect(m_player1Pawns[i].rect))
+			{
+				m_selectedPawn = &m_player1Pawns[i];
+				selected = true;
+			}
+		}
+	}
+	else if (m_onTurn == 2)
+	{
+		for (int i = 0; i < m_player2Pawns.size(); i++)
+		{
+			if (isMouseInRect(m_player2Pawns[i].rect))
+			{
+				m_selectedPawn = &m_player2Pawns[i];
+				selected = true;
+			}
+		}
+	}
+
+	if (!selected)
+	{
+		if (m_selectedPawn != nullptr)
+		{
+			for (int r = 0; r < BOARD_SIZE; r++)
+			{
+				for (int c = 0; c < BOARD_SIZE; c++)
+				{
+					if (isMouseInRect(m_gridSquares[r][c].rect))
+					{
+						killPawn({ r, c });
+
+						m_selectedPawn->m_coor.x = r;
+						m_selectedPawn->m_coor.y = c;
+
+						m_selectedPawn->rect = m_gridSquares[r][c].rect;
+
+						m_onTurn = (m_onTurn == 1) + 1;
+
+						m_selectedPawn = nullptr;
+					}
+				}
+			}
+		}
+	}
+}
+
+void Grid::selectCards()
+{
+
+}
+
+void Grid::killPawn(int2 coor)
+{
+	for (int i = 0; i < m_player1Pawns.size(); i++)
+	{
+		if (m_player1Pawns[i].m_coor == coor)
+		{
+			m_player1Pawns.erase(m_player1Pawns.begin() + i);
+		}
+	}
+
+	for (int i = 0; i < m_player2Pawns.size(); i++)
+	{
+		if (m_player2Pawns[i].m_coor == coor)
+		{
+			m_player2Pawns.erase(m_player2Pawns.begin() + i);
+		}
+	}
 }
 
 void Grid::checkForClick()
@@ -193,7 +275,6 @@ void Grid::drawGridSquares()
 			drawObject(m_gridSquares[r][c]);
 		}
 	}
-
 }
 
 void Grid::drawPawns()
@@ -201,8 +282,6 @@ void Grid::drawPawns()
 	for (auto& pawn : m_player1Pawns)
 	{
 		drawObject(pawn);
-		D(pawn.rect.x);
-		D(pawn.rect.w);
 	}
 
 	for (auto& pawn : m_player2Pawns)
@@ -279,6 +358,7 @@ void Grid::update()
 	onHover();
 
 	checkForClick();
+	select();
 	calcAvailableMoves();
 
 	winCondition();
