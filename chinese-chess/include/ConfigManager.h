@@ -2,7 +2,7 @@
 
 #include "defines.h"
 
-//#include "Entity.h"
+#include "Pawn.h"
 #include "Presenter.h"
 
 class ConfigManager
@@ -13,15 +13,11 @@ public:
 	~ConfigManager();
 
 	void load();
-	//void loadEntity();
-	//void loadInvalidInputMsg();
+	void loadPawn();
 
-	//static Entity* m_enityModelPlayer1;
+	static SDL_Texture* m_pawn1;
+	static SDL_Texture* m_pawn2;
 	//static Entity* m_enityModelPlayer2;
 	//static Entity* m_enityModelEnemy;
 	//static Entity* m_enityModel;
-	static Drawable* m_invalidInputMsg;
-
-private:
-
 };

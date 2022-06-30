@@ -63,6 +63,9 @@ void Grid::load()
 			m_gridSquares[r][c].texture = modelSquareTexture;
 		}
 	}
+
+	loadPawns();
+	loadCards();
 }
 
 void Grid::draw()
@@ -71,7 +74,7 @@ void Grid::draw()
 
 	drawAvailableMoves();
 
-	drawEntities();
+	drawPawns();
 
 	drawHover();
 	
@@ -108,6 +111,42 @@ void Grid::destroy()
 	m_entities.clear();
 */
 	SDL_DestroyTexture(m_gridSquares[0][0].texture);
+}
+
+vector<int2> Grid::availableMoves(Pawn* pawn, Card* card)
+{
+	return vector<int2>();
+}
+
+void Grid::loadPawns()
+{
+	for (int i = 0; i < BOARD_SIZE; i++)
+	{
+		Pawn buff;
+
+		buff.m_coor.x = 0;
+		buff.m_coor.y = i;
+		buff.rect = m_gridSquares[0][i].rect;
+		buff.texture = ConfigManager::m_pawn1;
+		buff.m_owner = 1;
+		m_player1Pawns.push_back(buff);
+
+		buff.m_coor.x = BOARD_SIZE - 1;
+		buff.m_coor.y = i;
+		buff.rect = m_gridSquares[BOARD_SIZE - 1][i].rect;
+		buff.texture = ConfigManager::m_pawn2;
+		buff.m_owner = 2;
+		m_player1Pawns.push_back(buff);
+	}
+}
+
+void Grid::loadCards()
+{
+
+}
+
+void Grid::select()
+{
 }
 
 void Grid::checkForClick()
@@ -151,12 +190,17 @@ void Grid::drawGridSquares()
 
 }
 
-void Grid::drawEntities()
+void Grid::drawPawns()
 {
-	/*for (int i = 0; i < m_entities.size(); i++)
+	for (auto& pawn : m_player1Pawns)
 	{
-		m_entities[i]->draw();
-	}*/
+		drawObject(pawn);
+	}
+
+	for (auto& pawn : m_player2Pawns)
+	{
+		drawObject(pawn);
+	}
 }
 
 void Grid::onHover()

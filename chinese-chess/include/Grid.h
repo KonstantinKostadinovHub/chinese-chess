@@ -2,10 +2,12 @@
 
 #include "Presenter.h"
 #include "Validator.h"
+#include "Pawn.h"
+#include "Card.h"
+
 #include <map>
 
 constexpr int BOARD_SIZE = 5;
-
 
 /*
 \brief Grid structure splitting a place into gridded squares
@@ -47,16 +49,29 @@ private:
 	int2 m_lastEntityCoordinates;
 	*/
 
+	Card* m_selectedCard;
+	Pawn* m_selectedPawn;
+
+	vector<Pawn> m_player1Pawns;
+	vector<Pawn> m_player2Pawns;
+
 	vector<Drawable*> m_availableMoves;
 
 	int m_onTurn; // 0 - none, pos number - player
+
+	vector<int2> availableMoves(Pawn* pawn, Card* card);
+
+	void loadPawns();
+	void loadCards();
+
+	void select();
 
 	void checkForClick();
 	void onHover();
 
 	void drawHover();
 	void drawGridSquares();
-	void drawEntities();
+	void drawPawns();
 	void drawAvailableMoves();
 	void calcAvailableMoves();
 
