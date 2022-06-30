@@ -16,6 +16,7 @@ Grid::~Grid()
 
 void Grid::load()
 {
+
 	int2 coordinates; // from where do we start
 
 	string temp , player1OnTurn, player2OnTurn, tutorailImg;
@@ -46,7 +47,9 @@ void Grid::load()
 	m_hover.texture = loadTexture(GAME_FOLDER + "gridPossMove.bmp");
 	
 	SDL_Texture* modelSquareTexture;
-	modelSquareTexture = loadTexture(GAME_FOLDER + "gridEvenSquareTexture.bmp");
+	modelSquareTexture = loadTexture(GAME_FOLDER + "tile.bmp");
+	
+	m_background = loadTexture(GAME_FOLDER + "background.bmp");
 
 	coordinates.x = (Presenter::m_SCREEN_WIDTH - squareSize * BOARD_SIZE) / 2;
 	coordinates.y = (Presenter::m_SCREEN_HEIGHT - squareSize * BOARD_SIZE) / 2;	
@@ -70,6 +73,8 @@ void Grid::load()
 
 void Grid::draw()
 {
+	drawObject(m_background);
+
 	drawGridSquares();
 
 	drawAvailableMoves();
@@ -128,6 +133,7 @@ void Grid::loadPawns()
 		buff.m_coor.y = i;
 		buff.rect = m_gridSquares[0][i].rect;
 		buff.texture = ConfigManager::m_pawn1;
+		D(buff.texture);
 		buff.m_owner = 1;
 		m_player1Pawns.push_back(buff);
 
@@ -136,7 +142,7 @@ void Grid::loadPawns()
 		buff.rect = m_gridSquares[BOARD_SIZE - 1][i].rect;
 		buff.texture = ConfigManager::m_pawn2;
 		buff.m_owner = 2;
-		m_player1Pawns.push_back(buff);
+		m_player2Pawns.push_back(buff);
 	}
 }
 
@@ -195,6 +201,8 @@ void Grid::drawPawns()
 	for (auto& pawn : m_player1Pawns)
 	{
 		drawObject(pawn);
+		D(pawn.rect.x);
+		D(pawn.rect.w);
 	}
 
 	for (auto& pawn : m_player2Pawns)
