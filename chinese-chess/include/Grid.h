@@ -83,6 +83,7 @@ private:
 	void drawHover();
 	void drawGridSquares();
 	void drawPawns();
+	void drawCards();
 	void drawAvailableMoves();
 	void calcAvailableMoves();
 

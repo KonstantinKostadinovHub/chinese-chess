@@ -60,17 +60,29 @@ void Grid::load()
 	stream >> temp >> m_player2Cards[0]->rect.x >> m_player2Cards[0]->rect.y;
 	m_player2Cards[0]->rect.w = cardDim.x;
 	m_player2Cards[0]->rect.h = cardDim.y;
-
+	
 	stream >> temp >> temp;
 	m_player2Cards[1]->texture = loadTexture(GAME_FOLDER + temp);
 	stream >> temp >> m_player2Cards[1]->rect.x >> m_player2Cards[1]->rect.y;
 	m_player2Cards[1]->rect.w = cardDim.x;
 	m_player2Cards[1]->rect.h = cardDim.y;
 
+	stream >> temp >> temp;
+	m_player1nextMove->texture = loadTexture(GAME_FOLDER + temp);
+	stream >> temp >> m_player1nextMove->rect.x >> m_player1nextMove->rect.y;
+	m_player1nextMove->rect.w = cardDim.x;
+	m_player1nextMove->rect.h = cardDim.y;
+
+	stream >> temp >> temp;
+	m_player2nextMove->texture = loadTexture(GAME_FOLDER + temp);
+	stream >> temp >> m_player2nextMove->rect.x >> m_player2nextMove->rect.y;
+	m_player2nextMove->rect.w = cardDim.x;
+	m_player2nextMove->rect.h = cardDim.y;
+
 	stream.close();
 
-	m_player1Cards[0]->m_moves = { {0, -1} };
-	m_player1Cards[1]->m_moves = { {0, -2} };
+	m_player1Cards[0]->m_moves = { {1, 3} };
+	m_player1Cards[1]->m_moves = { {1, 3} };
 	m_player2Cards[0]->m_moves = { {1, -2} };
 	m_player2Cards[1]->m_moves = { {2, -2} };
 	m_player1nextMove->m_moves = { {2, 0} };
@@ -84,7 +96,7 @@ void Grid::load()
 	
 	m_drawTutorial = false;
 	
-	m_availableMove.texture = loadTexture(GAME_FOLDER + "unavailableTile.bmp");
+	m_availableMove.texture = loadTexture(GAME_FOLDER + "gridBorderTexture.bmp");
 	m_hover.texture = loadTexture(GAME_FOLDER + "gridPossMove.bmp");
 	
 	SDL_Texture* modelSquareTexture;
@@ -121,6 +133,8 @@ void Grid::draw()
 	drawAvailableMoves();
 
 	drawPawns();
+
+	drawCards();
 
 	drawHover();
 	
@@ -220,6 +234,7 @@ void Grid::selectPawns()
 			{
 				m_selectedPawn = &m_player1Pawns[i];
 				selected = true;
+				m_selected = true;
 			}
 		}
 	}
@@ -231,13 +246,13 @@ void Grid::selectPawns()
 			{
 				m_selectedPawn = &m_player2Pawns[i];
 				selected = true;
+				m_selected = true;
 			}
 		}
 	}
 
 	if (!selected)
 	{
-		m_selected = true;
 		if (m_selectedPawn != nullptr)
 		{
 			for (int r = 0; r < BOARD_SIZE; r++)
@@ -363,6 +378,18 @@ void Grid::drawPawns()
 	}
 }
 
+void Grid::drawCards()
+{
+	for (int i = 0; i < 2; i++)
+	{
+		drawObject(*m_player1Cards[i]);
+		drawObject(*m_player2Cards[i]);
+	}
+
+	drawObject(*m_player1nextMove);
+	drawObject(*m_player2nextMove);
+}
+
 void Grid::onHover()
 {
 	m_hoverGrid = nullptr;
@@ -403,10 +430,16 @@ void Grid::calcAvailableMoves()
 	{
 		for (int c = 0; c < BOARD_SIZE; c++)
 		{
-			//TODO: add check when we add the cards
-			if (true)
+			if (m_selectedCard != nullptr && m_selectedPawn != nullptr)
 			{
-				m_availableMoves.push_back(&m_gridSquares[r][c]);
+				for (auto& move : m_selectedCard->m_moves)
+				{
+					int2 tile = move + m_selectedPawn->m_coor;
+					if (tile.x > 0 && tile.y > 0 && tile.x < BOARD_SIZE && tile.y < BOARD_SIZE)
+					{
+						m_availableMoves.push_back(&m_gridSquares[tile.x][tile.y]);
+					}
+				}
 			}
 		}
 	}
@@ -425,6 +458,8 @@ bool Grid::possMove(int2 coor)
 	}
 	for (auto& move : m_selectedCard->m_moves)
 	{
+		D(m_selectedPawn->m_coor.x + move.x);
+		D(m_selectedPawn->m_coor.y + move.y);
 		if (m_selectedPawn->m_coor + move == coor)
 		{
 			return true;
