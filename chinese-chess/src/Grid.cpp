@@ -438,17 +438,24 @@ void Grid::drawAvailableMoves()
 	}
 }
 
+/*
+* Fill the vector of available moves
+*/
 void Grid::calcAvailableMoves()
 {
 	m_availableMoves.clear();
 
+	// check if should use this function
 	if (m_selectedCard != nullptr && m_selectedPawn != nullptr)
 	{
+		// get the coor of all possible moves
 		for (auto& move : m_selectedCard->data.m_availableMoves)
 		{
 			int2 tile = move + m_selectedPawn->m_coor;
 
-			if (tile.x >= 0 && tile.y >= 0 && tile.x < BOARD_SIZE && tile.y < BOARD_SIZE)
+			// check if we are in the board
+			if (tile.x >= 0 && tile.y >= 0 
+				&& tile.x < BOARD_SIZE && tile.y < BOARD_SIZE)
 			{
 				m_availableMoves.push_back(&m_gridSquares[tile.x][tile.y]);
 			}
@@ -458,14 +465,15 @@ void Grid::calcAvailableMoves()
 
 void Grid::cardSwitch()
 {
+	// this function requires a card to be selected
 	assert(m_selectedCard != nullptr);
+
 	if (m_onTurn == 1)
 	{
 		m_player2nextMove->data = m_selectedCard->data;
 		m_player2nextMove->texture = m_player2nextMove->data.reversedTexture;
 		m_selectedCard->data = m_player1nextMove->data;
 		m_selectedCard->texture = m_selectedCard->data.texture;
-		
 	}
 	else if(m_onTurn == 2)
 	{
@@ -475,6 +483,7 @@ void Grid::cardSwitch()
 		m_selectedCard->texture = m_selectedCard->data.reversedTexture;
 	}
 
+	// flip the moves of the card, that is being passed
 	for (auto& move : m_selectedCard->data.m_availableMoves)
 	{
 		move.y *= -1;
@@ -506,6 +515,7 @@ bool Grid::possMove(int2 coor)
 
 int Grid::checkForWinner()
 {
+	// temple win condition
 	const int2 _player1Temple = { 2, 0 };
 	const int2 _player2Temple = { 2, 4 };
 
@@ -525,6 +535,16 @@ int Grid::checkForWinner()
 		}
 	}
 
+	// no pawns win condition
+	if (m_player1Pawns.size() == 0)
+	{
+		return 2;
+	}
+	else if (m_player2Pawns.size() == 0)
+	{
+		return 1;
+	}
+
 	return 0;
 }
 
@@ -536,8 +556,9 @@ void Grid::update()
 	select();
 	calcAvailableMoves();
 
-	if (!checkForWinner() == 0)
+	if (checkForWinner())
 	{
+		// go to the next scene
 		world.m_stateManager.changeGameState(GAME_STATE::WIN_SCREEN);
 	}
 }

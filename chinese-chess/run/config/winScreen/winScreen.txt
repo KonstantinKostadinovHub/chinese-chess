@@ -1,6 +1,6 @@
 Backgorund: Background.bmp
 
-PlayerRect: 508 250 900 320
+PlayerRect: 520 292 880 496
 
 Player_1_2: Player1Wins.bmp Player2Wins.bmp
 
