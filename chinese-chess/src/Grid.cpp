@@ -433,7 +433,7 @@ void Grid::cardSwitch()
 {
 	if (m_onTurn == 1)
 	{
-
+		
 	}
 	else if (m_onTurn == 2)
 	{
@@ -496,7 +496,7 @@ void Grid::update()
 	select();
 	calcAvailableMoves();
 
-	if (~checkForWinner() == 0)
+	if (!checkForWinner() == 0)
 	{
 		world.m_stateManager.changeGameState(GAME_STATE::WIN_SCREEN);
 	}
