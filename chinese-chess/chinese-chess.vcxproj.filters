@@ -7,6 +7,12 @@
     <Filter Include="include">
       <UniqueIdentifier>{d701aeb0-595a-4db8-bdfd-6a7126f9ab76}</UniqueIdentifier>
     </Filter>
+    <Filter Include="include\STATES">
+      <UniqueIdentifier>{376abddc-b808-4e1e-8cda-44e872f1f045}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="src\STATES">
+      <UniqueIdentifier>{7b1f60d4-a585-46e8-ab3a-0fa5f2e57c0e}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\main.cpp">
@@ -27,32 +33,32 @@
     <ClCompile Include="src\Engine.cpp">
       <Filter>src</Filter>
     </ClCompile>
-    <ClCompile Include="src\Game.cpp">
-      <Filter>src</Filter>
-    </ClCompile>
     <ClCompile Include="src\Grid.cpp">
-      <Filter>src</Filter>
-    </ClCompile>
-    <ClCompile Include="src\Menu.cpp">
       <Filter>src</Filter>
     </ClCompile>
     <ClCompile Include="src\SoundManager.cpp">
       <Filter>src</Filter>
     </ClCompile>
-    <ClCompile Include="src\State.cpp">
-      <Filter>src</Filter>
-    </ClCompile>
-    <ClCompile Include="src\StateManager.cpp">
-      <Filter>src</Filter>
-    </ClCompile>
-    <ClCompile Include="src\TitleScreen.cpp">
-      <Filter>src</Filter>
-    </ClCompile>
-    <ClCompile Include="src\WinScreen.cpp">
-      <Filter>src</Filter>
-    </ClCompile>
     <ClCompile Include="src\ConfigManager.cpp">
       <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Game.cpp">
+      <Filter>src\STATES</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Menu.cpp">
+      <Filter>src\STATES</Filter>
+    </ClCompile>
+    <ClCompile Include="src\StateManager.cpp">
+      <Filter>src\STATES</Filter>
+    </ClCompile>
+    <ClCompile Include="src\TitleScreen.cpp">
+      <Filter>src\STATES</Filter>
+    </ClCompile>
+    <ClCompile Include="src\WinScreen.cpp">
+      <Filter>src\STATES</Filter>
+    </ClCompile>
+    <ClCompile Include="src\State.cpp">
+      <Filter>src\STATES</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -74,32 +80,32 @@
     <ClInclude Include="include\Engine.h">
       <Filter>include</Filter>
     </ClInclude>
-    <ClInclude Include="include\Game.h">
-      <Filter>include</Filter>
-    </ClInclude>
     <ClInclude Include="include\Grid.h">
-      <Filter>include</Filter>
-    </ClInclude>
-    <ClInclude Include="include\Menu.h">
       <Filter>include</Filter>
     </ClInclude>
     <ClInclude Include="include\SoundManager.h">
       <Filter>include</Filter>
     </ClInclude>
-    <ClInclude Include="include\State.h">
-      <Filter>include</Filter>
-    </ClInclude>
-    <ClInclude Include="include\StateManager.h">
-      <Filter>include</Filter>
-    </ClInclude>
-    <ClInclude Include="include\TitleScreen.h">
-      <Filter>include</Filter>
-    </ClInclude>
-    <ClInclude Include="include\WinScreen.h">
-      <Filter>include</Filter>
-    </ClInclude>
     <ClInclude Include="include\ConfigManager.h">
       <Filter>include</Filter>
+    </ClInclude>
+    <ClInclude Include="include\Game.h">
+      <Filter>include\STATES</Filter>
+    </ClInclude>
+    <ClInclude Include="include\Menu.h">
+      <Filter>include\STATES</Filter>
+    </ClInclude>
+    <ClInclude Include="include\StateManager.h">
+      <Filter>include\STATES</Filter>
+    </ClInclude>
+    <ClInclude Include="include\State.h">
+      <Filter>include\STATES</Filter>
+    </ClInclude>
+    <ClInclude Include="include\TitleScreen.h">
+      <Filter>include\STATES</Filter>
+    </ClInclude>
+    <ClInclude Include="include\WinScreen.h">
+      <Filter>include\STATES</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

@@ -17,10 +17,8 @@ public:
 	void destroy();
 	
 private: 
-
-	bool m_isValid;
 	
-	Drawable m_menu;
+	SDL_Texture* m_menuTexture;
 
 	Button m_playBtn;
 	Button m_exitBtn;

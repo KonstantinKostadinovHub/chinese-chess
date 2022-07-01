@@ -18,14 +18,14 @@ Grid::~Grid()
 
 void Grid::load()
 {
-	int2 coordinates; // from where do we start
+	int2 coordinates, cardDim; // from where do we start
 
-	string temp , player1OnTurn, player2OnTurn, tutorailImg;
+	string temp , player1OnTurn, player2OnTurn;
+	
 	fstream stream;
 
 	int squareSize;
-	int2 cardDim;
-
+	
 	m_player1Cards[0] = new Card;
 	m_player1Cards[1] = new Card;
 	m_player2Cards[0] = new Card;
@@ -39,8 +39,6 @@ void Grid::load()
 
 	stream >> temp >> m_player1OnTurn.rect.x >> m_player1OnTurn.rect.y >> m_player1OnTurn.rect.w >> m_player1OnTurn.rect.h;
 	stream >> temp >> player1OnTurn >> player2OnTurn;
-	stream >> temp >> m_tutorial.rect.x >> m_tutorial.rect.y >> m_tutorial.rect.w >> m_tutorial.rect.h;
-	stream >> temp >> tutorailImg;
 	
 	stream >> temp >> temp;
 
@@ -106,15 +104,9 @@ void Grid::load()
 
 	m_player1OnTurn.texture = loadTexture(GAME_FOLDER + player1OnTurn);
 	m_player2OnTurn.texture = loadTexture(GAME_FOLDER + player2OnTurn);
-	m_tutorial.texture = loadTexture(GAME_FOLDER + tutorailImg);
-	
-	m_drawTutorial = false;
-	
+
 	m_availableMove.texture = loadTexture(GAME_FOLDER + "gridPossMove.bmp");
 	m_hover.texture = loadTexture(GAME_FOLDER + "hover.bmp");
-	
-	SDL_Texture* modelSquareTexture;
-	modelSquareTexture = loadTexture(GAME_FOLDER + "tile.bmp");
 	
 	m_background = loadTexture(GAME_FOLDER + "background.bmp");
 
@@ -126,11 +118,7 @@ void Grid::load()
 		for (int c = 0; c < BOARD_SIZE; c++)
 		{
 			m_gridSquares[r][c].rect = { c * squareSize + coordinates.x,
-				r * squareSize + coordinates.y, 
-				squareSize, 
-				squareSize};
-			
-			m_gridSquares[r][c].texture = modelSquareTexture;
+				r * squareSize + coordinates.y, squareSize, squareSize};
 		}
 	}
 
@@ -151,10 +139,6 @@ void Grid::draw()
 
 	drawHover();
 	
-	if (m_drawTutorial)
-	{
-		drawObject(m_tutorial);
-	}
 	
 	if (m_onTurn == 1)
 	{
@@ -408,6 +392,7 @@ void Grid::drawCards()
 void Grid::onHover()
 {
 	m_hoverGrid = nullptr;
+	
 	for (int r = 0; r < BOARD_SIZE; r++)
 	{
 		for (int c = 0; c < BOARD_SIZE; c++)

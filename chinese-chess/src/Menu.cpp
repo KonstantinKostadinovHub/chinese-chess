@@ -18,16 +18,15 @@ void Menu::init()
 
 	string tmp, img, playBtnPath, exitBtnPath;
 
-	stream.open(CONFIG_FOLDER + MENU_FOLDER + "menu\\");
+	stream.open(CONFIG_FOLDER + MENU_FOLDER + "menu.txt");
 
-	stream >> tmp >> m_menu.rect.x >> m_menu.rect.y >> m_menu.rect.w >> m_menu.rect.h;
 	stream >> tmp >> img;
 	stream >> tmp >> playBtnPath;
 	stream >> tmp >> exitBtnPath;
 
 	stream.close();
 
-	m_menu.texture = loadTexture(MENU_FOLDER + img);
+	m_menuTexture = loadTexture(MENU_FOLDER + img);
 
 	m_playBtn.init(playBtnPath, MENU_FOLDER);
 	m_exitBtn.init(exitBtnPath, MENU_FOLDER);
@@ -35,12 +34,15 @@ void Menu::init()
 
 void Menu::run()
 {	
-	drawObject(m_menu);
+	drawObject(m_menuTexture);
 
+	m_playBtn.update();
 	m_playBtn.draw();
+	
+	m_exitBtn.update();
 	m_exitBtn.draw();
 
-	if (mouseIsPressed)
+	if (mouseIsPressed())
 	{
 		if (isMouseInRect(m_playBtn.getRect()))
 		{
@@ -66,5 +68,5 @@ void Menu::destroy()
 	m_playBtn.destroy();
 	m_exitBtn.destroy();
 
-	SDL_DestroyTexture(m_menu.texture);
+	SDL_DestroyTexture(m_menuTexture);
 }

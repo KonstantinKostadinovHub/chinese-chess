@@ -33,7 +33,6 @@ private:
 
 	Drawable m_player1OnTurn;
 	Drawable m_player2OnTurn;
-	Drawable m_tutorial;
 	
 	Drawable m_availableMove;	// possible to move square
 	Drawable m_hover;		// the drawable for hovering
@@ -81,6 +80,4 @@ private:
 	void cardSwitch();
 
 	bool possMove(int2 coor);
-
-	bool m_drawTutorial;
 };

@@ -27,6 +27,9 @@ Button::~Button()
 
 void Button::init(string configFile, string folder)
 {
+	m_renderer = world.m_presenter.getRenderer();
+	m_inputManager = &world.m_inputManager;
+
 	configFile = CONFIG_FOLDER + folder + configFile;
 
 	fstream stream;

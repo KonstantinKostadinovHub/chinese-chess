@@ -242,5 +242,5 @@ enum class SOUND
     BUTTON_CLICK = 2,
     PLACE_PAWN = 3,
     CAPTURE_TEMPLE = 4,
-    CARD_TURN = 5
+    SELECT_PAWN = 5
 };

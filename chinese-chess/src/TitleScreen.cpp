@@ -44,7 +44,7 @@ void TitleScreen::run()
 
 	if (isAnyKeyPressed())
 	{
-		world.m_stateManager.changeGameState(GAME_STATE::GAME);
+		world.m_stateManager.changeGameState(GAME_STATE::MENU);
 		return;
 	}
 }
