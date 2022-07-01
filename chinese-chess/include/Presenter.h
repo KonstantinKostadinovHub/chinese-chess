@@ -34,8 +34,6 @@ public:
 	static void drawObject(Drawable& drawable);
 	static void drawObject(DrawableWithOpacity& drawable);
 	
-	void drawLine(/*line ln, */ float2 start, float2 finish);
-
 private:
 	int2 screenCenter;
 

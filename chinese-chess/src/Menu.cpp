@@ -44,7 +44,7 @@ void Menu::run()
 	{
 		if (isMouseInRect(m_playBtn.getRect()))
 		{
-			//world.m_soundManager.playSound();
+			world.m_soundManager.playSound(SOUND::BUTTON_CLICK);
 
 			world.m_stateManager.changeGameState(GAME_STATE::GAME);
 
@@ -52,7 +52,7 @@ void Menu::run()
 		}
 		else if (isMouseInRect(m_exitBtn.getRect()))
 		{
-			//world.m_soundManager.playSound();
+			world.m_soundManager.playSound(SOUND::BUTTON_CLICK);
 
 			world.m_stateManager.changeGameState(GAME_STATE::NONE);
 

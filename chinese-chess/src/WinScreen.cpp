@@ -66,7 +66,7 @@ void WinScreen::run()
 	{
 		if (isMouseInRect(m_playBtn.getRect()))
 		{
-			//world.m_soundManager.playSound(SOUND::BUTTON_CLICK);
+			world.m_soundManager.playSound(SOUND::BUTTON_CLICK);
 
 			world.m_stateManager.changeGameState(GAME_STATE::MENU);
 
@@ -75,7 +75,7 @@ void WinScreen::run()
 
 		if (isMouseInRect(m_exitBtn.getRect()))
 		{
-			//world.m_soundManager.playSound(SOUND::BUTTON_CLICK);
+			world.m_soundManager.playSound(SOUND::BUTTON_CLICK);
 
 			world.m_stateManager.changeGameState(GAME_STATE::NONE);
 

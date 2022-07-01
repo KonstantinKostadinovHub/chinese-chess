@@ -48,9 +48,6 @@
     <ClCompile Include="src\TitleScreen.cpp">
       <Filter>src</Filter>
     </ClCompile>
-    <ClCompile Include="src\Validator.cpp">
-      <Filter>src</Filter>
-    </ClCompile>
     <ClCompile Include="src\WinScreen.cpp">
       <Filter>src</Filter>
     </ClCompile>
@@ -102,9 +99,6 @@
       <Filter>include</Filter>
     </ClInclude>
     <ClInclude Include="include\TitleScreen.h">
-      <Filter>include</Filter>
-    </ClInclude>
-    <ClInclude Include="include\Validator.h">
       <Filter>include</Filter>
     </ClInclude>
     <ClInclude Include="include\WinScreen.h">

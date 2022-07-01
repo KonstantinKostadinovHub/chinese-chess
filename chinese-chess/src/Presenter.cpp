@@ -63,6 +63,7 @@ void Presenter::improveRenderer()
 
 void Presenter::update()
 {
+
 }
 
 void Presenter::draw()
@@ -90,11 +91,4 @@ void Presenter::drawObject(DrawableWithOpacity& drawable)
     SDL_SetTextureAlphaMod(drawable.texture, drawable.opacity);
 	
     SDL_RenderCopy(m_main_renderer, drawable.texture, NULL, &drawable.rect);
-}
-
-void Presenter::drawLine(/*line ln, */ float2 start, float2 finish)
-{
-    line ln = { start,finish };
-    
-    SDL_RenderDrawLineF(m_main_renderer, start.x, start.y, finish.x, finish.y);
 }

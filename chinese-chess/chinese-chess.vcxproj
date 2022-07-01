@@ -159,7 +159,6 @@
     <ClCompile Include="src\State.cpp" />
     <ClCompile Include="src\StateManager.cpp" />
     <ClCompile Include="src\TitleScreen.cpp" />
-    <ClCompile Include="src\Validator.cpp" />
     <ClCompile Include="src\WinScreen.cpp" />
     <ClCompile Include="src\World.cpp" />
   </ItemGroup>
@@ -179,7 +178,6 @@
     <ClInclude Include="include\State.h" />
     <ClInclude Include="include\StateManager.h" />
     <ClInclude Include="include\TitleScreen.h" />
-    <ClInclude Include="include\Validator.h" />
     <ClInclude Include="include\WinScreen.h" />
     <ClInclude Include="include\World.h" />
   </ItemGroup>

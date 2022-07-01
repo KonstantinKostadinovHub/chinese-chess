@@ -29,11 +29,9 @@ using namespace std;
 
 static string UI_FOLDER = "UI\\";
 static string MENU_FOLDER = "menu\\";
-static string MAIN_FOLDER = "main\\";
 static string IMG_FOLDER = "img\\";
 static string CONFIG_FOLDER = "config\\";
 static string FONT_FOLDER = "ttf\\";
-static string VFX_FOLDER = "vfx\\";
 static string CONFIG_MANAGER_FOLDER = "configManager\\";
 static string SOUND_FOLDER = "music\\";
 static string TITLE_SCREEN_FOLDER = "titleScreen\\";
@@ -196,29 +194,11 @@ struct float2
     }
 };
 
-static int2 parseToCoordinates(SDL_Rect rect)
-{
-    return { rect.x , rect.y };
-}
-
-struct line
-{
-    float2 start;
-    float2 finish;
-}; ///< A useful structure creating a line from coordinates
-
 enum class FONT
 {
     NONE = 0,
     ARCADE_CLASSIC = 1, // used in MonTu
     ADVENT_PRO = 2 // used in Raven
-};
-
-enum class COLOR
-{
-    NONE = 0,
-    LIGHT = 1,
-    DARK = 2
 };
 
 struct Drawable
@@ -232,7 +212,6 @@ struct DrawableWithOpacity : public Drawable
     int opacity = 0;
     int changePerFrame = 0;
 };
-
 
 enum class SOUND
 {
