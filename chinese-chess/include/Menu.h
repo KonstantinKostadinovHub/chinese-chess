@@ -21,4 +21,7 @@ private:
 	bool m_isValid;
 	
 	Drawable m_menu;
+
+	Button m_playBtn;
+	Button m_exitBtn;
 };
