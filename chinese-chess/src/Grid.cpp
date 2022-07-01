@@ -1,5 +1,7 @@
 #include "Grid.h"
 
+#include <assert.h> /* assert */
+
 #include "World.h"
 
 extern World world;
@@ -39,6 +41,14 @@ void Grid::load()
 	stream >> temp >> player1OnTurn >> player2OnTurn;
 	stream >> temp >> m_tutorial.rect.x >> m_tutorial.rect.y >> m_tutorial.rect.w >> m_tutorial.rect.h;
 	stream >> temp >> tutorailImg;
+	
+	stream >> temp >> temp;
+
+	m_drawSelectedPawn.texture = loadTexture(GAME_FOLDER + temp);
+
+	stream >> temp >> temp;
+
+	m_drawSelectedCard.texture = loadTexture(GAME_FOLDER + temp);
 
 	stream >> temp >> cardDim.x >> cardDim.y;
 
@@ -101,7 +111,7 @@ void Grid::load()
 	m_drawTutorial = false;
 	
 	m_availableMove.texture = loadTexture(GAME_FOLDER + "gridPossMove.bmp");
-	m_hover.texture = loadTexture(GAME_FOLDER + "gridPossMove.bmp");
+	m_hover.texture = loadTexture(GAME_FOLDER + "hover.bmp");
 	
 	SDL_Texture* modelSquareTexture;
 	modelSquareTexture = loadTexture(GAME_FOLDER + "tile.bmp");
@@ -259,6 +269,8 @@ void Grid::selectPawns()
 
 							m_selectedPawn->rect = m_gridSquares[r][c].rect;
 
+							cardSwitch();
+
 							m_onTurn = (m_onTurn == 1) + 1;
 
 							m_selectedPawn = nullptr;
@@ -267,6 +279,10 @@ void Grid::selectPawns()
 				}
 			}
 		}
+	}
+	else
+	{
+		m_drawSelectedPawn.rect = m_selectedPawn->rect;
 	}
 }
 
@@ -279,6 +295,7 @@ void Grid::selectCards()
 			if (isMouseInRect(m_player1Cards[i]->rect))
 			{
 				m_selectedCard = m_player1Cards[i];
+				m_drawSelectedCard.rect = m_selectedCard->rect;
 				m_selected = true;
 			}
 		}
@@ -290,6 +307,7 @@ void Grid::selectCards()
 			if (isMouseInRect(m_player2Cards[i]->rect))
 			{
 				m_selectedCard = m_player2Cards[i];
+				m_drawSelectedCard.rect = m_selectedCard->rect;
 				m_selected = true;
 			}
 		}
@@ -347,6 +365,11 @@ void Grid::drawGridSquares()
 
 void Grid::drawPawns()
 {
+	if (m_selectedPawn != nullptr)
+	{
+		drawObject(m_drawSelectedPawn);
+	}
+	
 	for (auto& pawn : m_player1Pawns)
 	{
 		drawObject(pawn);
@@ -366,8 +389,20 @@ void Grid::drawCards()
 		drawObject(*m_player2Cards[i]);
 	}
 
-	drawObject(*m_player1nextMove);
-	drawObject(*m_player2nextMove);
+	if (m_onTurn == 1)
+	{
+		drawObject(*m_player1nextMove);
+	}
+	else if(m_onTurn == 2)
+	{
+		drawObject(*m_player2nextMove);
+	}
+
+	if (m_selectedCard != nullptr)
+	{
+		drawObject(m_drawSelectedCard);
+	}
+
 }
 
 void Grid::onHover()
@@ -407,21 +442,15 @@ void Grid::calcAvailableMoves()
 {
 	m_availableMoves.clear();
 
-	for (int r = 0; r < BOARD_SIZE; r++)
+	if (m_selectedCard != nullptr && m_selectedPawn != nullptr)
 	{
-		for (int c = 0; c < BOARD_SIZE; c++)
+		for (auto& move : m_selectedCard->data.m_availableMoves)
 		{
-			if (m_selectedCard != nullptr && m_selectedPawn != nullptr)
-			{
-				for (auto& move : m_selectedCard->data.m_availableMoves)
-				{
-					int2 tile = move + m_selectedPawn->m_coor;
+			int2 tile = move + m_selectedPawn->m_coor;
 
-					if (tile.x > 0 && tile.y > 0 && tile.x < BOARD_SIZE && tile.y < BOARD_SIZE)
-					{
-						m_availableMoves.push_back(&m_gridSquares[tile.x][tile.y]);
-					}
-				}
+			if (tile.x >= 0 && tile.y >= 0 && tile.x < BOARD_SIZE && tile.y < BOARD_SIZE)
+			{
+				m_availableMoves.push_back(&m_gridSquares[tile.x][tile.y]);
 			}
 		}
 	}
@@ -429,7 +458,27 @@ void Grid::calcAvailableMoves()
 
 void Grid::cardSwitch()
 {
-	
+	assert(m_selectedCard != nullptr);
+	if (m_onTurn == 1)
+	{
+		m_player2nextMove->data = m_selectedCard->data;
+		m_player2nextMove->texture = m_player2nextMove->data.reversedTexture;
+		m_selectedCard->data = m_player1nextMove->data;
+		m_selectedCard->texture = m_selectedCard->data.texture;
+		
+	}
+	else if(m_onTurn == 2)
+	{
+		m_player1nextMove->data = m_selectedCard->data;
+		m_player1nextMove->texture = m_player1nextMove->data.texture;
+		m_selectedCard->data = m_player2nextMove->data;
+		m_selectedCard->texture = m_selectedCard->data.reversedTexture;
+	}
+
+	for (auto& move : m_selectedCard->data.m_availableMoves)
+	{
+		move.y *= -1;
+	}
 }
 
 /*

@@ -8,6 +8,9 @@ Tutorial_Rect: 25 88 420 757
 
 Tutorial_Img: tutorial.bmp
 
+drawSelectedPawn: selectedPawn.bmp
+drawSelectedCard: selectedCard.bmp
+
 rectW&H: 320 155
 
 texture: dragon.bmp

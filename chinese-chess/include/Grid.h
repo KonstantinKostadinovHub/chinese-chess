@@ -39,6 +39,8 @@ private:
 	Drawable m_hover;		// the drawable for hovering
 
 	Drawable* m_hoverGrid;// the grid that we hover on
+	Drawable m_drawSelectedPawn;
+	Drawable m_drawSelectedCard;
 
 	Card* m_selectedCard;
 	Pawn* m_selectedPawn;
