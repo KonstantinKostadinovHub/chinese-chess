@@ -7,5 +7,3 @@ Player_1_2: Player1Wins.bmp Player2Wins.bmp
 PlayBtnPath: playBtn.txt
 
 ExitBtnPath: exitBtn.txt
-
-Defeat: defeat.bmp

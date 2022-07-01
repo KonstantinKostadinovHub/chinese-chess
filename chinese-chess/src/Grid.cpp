@@ -153,14 +153,6 @@ void Grid::draw()
 	}
 }
 
-/*
-* changes the m_winner param, that is later used by WinScreen.h
-*/
-void Grid::winCondition()
-{
-	
-}
-
 void Grid::destroy()
 {
 /*
@@ -341,16 +333,6 @@ void Grid::checkForClick()
 				}
 			}
 		}
-		/*
-		for (int i = 0; i < m_entities.size(); i++)
-		{
-			if (MouseIsInRect(world.m_inputManager.m_mouseCoor, m_entities[i]->getRect()))
-			{
-				m_currentEntity = m_entities[i];
-				m_lastEntityCoordinates = centerOfRect(m_entities[i]->getRect());
-			}
-		}
-		*/
 	}
 }
 
@@ -426,6 +408,7 @@ void Grid::drawAvailableMoves()
 void Grid::calcAvailableMoves()
 {
 	m_availableMoves.clear();
+
 	for (int r = 0; r < BOARD_SIZE; r++)
 	{
 		for (int c = 0; c < BOARD_SIZE; c++)
@@ -435,6 +418,7 @@ void Grid::calcAvailableMoves()
 				for (auto& move : m_selectedCard->m_moves)
 				{
 					int2 tile = move + m_selectedPawn->m_coor;
+
 					if (tile.x > 0 && tile.y > 0 && tile.x < BOARD_SIZE && tile.y < BOARD_SIZE)
 					{
 						m_availableMoves.push_back(&m_gridSquares[tile.x][tile.y]);
@@ -442,6 +426,18 @@ void Grid::calcAvailableMoves()
 				}
 			}
 		}
+	}
+}
+
+void Grid::cardSwitch()
+{
+	if (m_onTurn == 1)
+	{
+
+	}
+	else if (m_onTurn == 2)
+	{
+
 	}
 }
 
@@ -456,16 +452,40 @@ bool Grid::possMove(int2 coor)
 	{
 		return false;
 	}
+
 	for (auto& move : m_selectedCard->m_moves)
 	{
-		D(m_selectedPawn->m_coor.x + move.x);
-		D(m_selectedPawn->m_coor.y + move.y);
 		if (m_selectedPawn->m_coor + move == coor)
 		{
 			return true;
 		}
 	}
+
 	return false;
+}
+
+int Grid::checkForWinner()
+{
+	const int2 _player1Temple = { 2, 0 };
+	const int2 _player2Temple = { 2, 4 };
+
+	for (int i = 0; i < m_player1Pawns.size(); i++)
+	{
+		if (m_player1Pawns[i].m_coor == _player2Temple)
+		{
+			return 1;
+		}
+	}
+
+	for (int i = 0; i < m_player2Pawns.size(); i++)
+	{
+		if (m_player2Pawns[i].m_coor == _player1Temple)
+		{
+			return 2;
+		}
+	}
+
+	return 0;
 }
 
 void Grid::update()
@@ -476,5 +496,8 @@ void Grid::update()
 	select();
 	calcAvailableMoves();
 
-	winCondition();
+	if (~checkForWinner() == 0)
+	{
+		world.m_stateManager.changeGameState(GAME_STATE::WIN_SCREEN);
+	}
 }

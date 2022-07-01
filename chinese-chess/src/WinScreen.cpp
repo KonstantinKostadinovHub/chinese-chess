@@ -18,7 +18,7 @@ void WinScreen::init()
 {
 	fstream stream;
 
-	string tmp, background, pl1, pl2, playBtnPath, exitBtnPath, defeatImg;
+	string tmp, background, pl1, pl2, playBtnPath, exitBtnPath;
 
 	stream.open(CONFIG_FOLDER + WIN_SCREEN_FOLDER + "winScreen.txt");
 
@@ -27,18 +27,15 @@ void WinScreen::init()
 	stream >> tmp >> pl1 >> pl2;
 	stream >> tmp >> playBtnPath;
 	stream >> tmp >> exitBtnPath;
-	stream >> tmp >> defeatImg;
 	
 	stream.close();
 
 	m_background = loadTexture(WIN_SCREEN_FOLDER + background);
 	
 	m_winScreenPl2.rect = m_winScreenPl1.rect;
-	m_winScreenEnemy.rect = m_winScreenPl1.rect;
 
 	m_winScreenPl1.texture = loadTexture(WIN_SCREEN_FOLDER + pl1);
 	m_winScreenPl2.texture = loadTexture(WIN_SCREEN_FOLDER + pl2);
-	m_winScreenEnemy.texture = loadTexture(WIN_SCREEN_FOLDER + defeatImg);
 
 	m_playBtn->init(playBtnPath, MENU_FOLDER);
 	m_exitBtn->init(exitBtnPath, MENU_FOLDER);
@@ -48,7 +45,7 @@ void WinScreen::run()
 {	
 	drawObject(m_background);
 
-	switch (world.m_stateManager.m_game->m_grid.m_winner)
+	switch (world.m_stateManager.m_game->m_grid.checkForWinner())
 	{
 	case 1:
 		drawObject(m_winScreenPl1);
@@ -57,7 +54,6 @@ void WinScreen::run()
 		drawObject(m_winScreenPl2);
 		break;
 	default:
-		drawObject(m_winScreenEnemy);
 		break;
 	}
 
@@ -67,10 +63,10 @@ void WinScreen::run()
 	m_exitBtn->update();
 	m_exitBtn->draw();
 	
-	/*if (MouseIsInRect(world.m_inputManager.m_mouseCoor, m_playBtn->getRect())
-		&& world.m_inputManager.m_mouseIsPressed)
+	if (MouseIsInRect(world.m_inputManager.m_mouseCoor, m_playBtn->getRect())
+		&& world.m_inputManager.mouseIsPressed)
 	{
-		world.m_soundManager.playSound(SOUND::BUTTON_CLICK);
+		//world.m_soundManager.playSound(SOUND::BUTTON_CLICK);
 		
 		world.m_stateManager.changeGameState(GAME_STATE::MENU);
 
@@ -78,14 +74,14 @@ void WinScreen::run()
 	}
 
 	if (MouseIsInRect(world.m_inputManager.m_mouseCoor, m_exitBtn->getRect())
-		&& world.m_inputManager.m_mouseIsPressed)
+		&& world.m_inputManager.mouseIsPressed())
 	{
-		world.m_soundManager.playSound(SOUND::BUTTON_CLICK);
+		//world.m_soundManager.playSound(SOUND::BUTTON_CLICK);
 
 		world.m_stateManager.changeGameState(GAME_STATE::NONE);
 		
 		return;
-	}*/
+	}
 }
 
 void WinScreen::destroy()
