@@ -44,37 +44,31 @@ void Grid::load()
 	stream >> temp >> cardDim.x >> cardDim.y;
 
 	stream >> temp >> temp;
-	m_player1Cards[0]->texture = loadTexture(GAME_FOLDER + temp);
 	stream >> temp >> m_player1Cards[0]->rect.x >> m_player1Cards[0]->rect.y;
 	m_player1Cards[0]->rect.w = cardDim.x;
 	m_player1Cards[0]->rect.h = cardDim.y;
 
 	stream >> temp >> temp;
-	m_player1Cards[1]->texture = loadTexture(GAME_FOLDER + temp);
 	stream >> temp >> m_player1Cards[1]->rect.x >> m_player1Cards[1]->rect.y;
 	m_player1Cards[1]->rect.w = cardDim.x;
 	m_player1Cards[1]->rect.h = cardDim.y;
 
 	stream >> temp >> temp;
-	m_player2Cards[0]->texture = loadTexture(GAME_FOLDER + temp);
 	stream >> temp >> m_player2Cards[0]->rect.x >> m_player2Cards[0]->rect.y;
 	m_player2Cards[0]->rect.w = cardDim.x;
 	m_player2Cards[0]->rect.h = cardDim.y;
 	
 	stream >> temp >> temp;
-	m_player2Cards[1]->texture = loadTexture(GAME_FOLDER + temp);
 	stream >> temp >> m_player2Cards[1]->rect.x >> m_player2Cards[1]->rect.y;
 	m_player2Cards[1]->rect.w = cardDim.x;
 	m_player2Cards[1]->rect.h = cardDim.y;
 
 	stream >> temp >> temp;
-	m_player1nextMove->texture = loadTexture(GAME_FOLDER + temp);
 	stream >> temp >> m_player1nextMove->rect.x >> m_player1nextMove->rect.y;
 	m_player1nextMove->rect.w = cardDim.x;
 	m_player1nextMove->rect.h = cardDim.y;
 
 	stream >> temp >> temp;
-	m_player2nextMove->texture = loadTexture(GAME_FOLDER + temp);
 	stream >> temp >> m_player2nextMove->rect.x >> m_player2nextMove->rect.y;
 	m_player2nextMove->rect.w = cardDim.x;
 	m_player2nextMove->rect.h = cardDim.y;
@@ -96,7 +90,7 @@ void Grid::load()
 	
 	m_drawTutorial = false;
 	
-	m_availableMove.texture = loadTexture(GAME_FOLDER + "gridBorderTexture.bmp");
+	m_availableMove.texture = loadTexture(GAME_FOLDER + "gridPossMove.bmp");
 	m_hover.texture = loadTexture(GAME_FOLDER + "gridPossMove.bmp");
 	
 	SDL_Texture* modelSquareTexture;
