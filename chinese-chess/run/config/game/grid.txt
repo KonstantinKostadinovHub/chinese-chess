@@ -1,6 +1,6 @@
 squareSize: 145
 
-Player_On_Turn: 535 40 850 160
+Player_On_Turn: 1514 712 290 290
 
 Plyaer_1_And_2_On_Turn: player1OnTurn.bmp player2OnTurn.bmp
 
