@@ -14,13 +14,15 @@ void SoundManager::init()
 {
 	fstream stream;
 
-	string tmp, background, btnClick, queenPlaced;
+	string tmp, background, buttonClick, placePawn, captureTemple, cardTurn;
 
 	stream.open(SOUND_FOLDER + "music.txt");
 
 	stream >> tmp >> background;
-	stream >> tmp >> btnClick;
-	stream >> tmp >> queenPlaced;
+	stream >> tmp >> buttonClick;
+	stream >> tmp >> placePawn;
+	stream >> tmp >> captureTemple;
+	stream >> tmp >> cardTurn;
 	
 	stream.close();
 
@@ -30,16 +32,40 @@ void SoundManager::init()
 	}
 
 	m_backgroundMusic = Mix_LoadWAV((SOUND_FOLDER + background).c_str());
-	m_buttonClick = Mix_LoadWAV((SOUND_FOLDER + btnClick).c_str());
-	m_placeQueen = Mix_LoadWAV((SOUND_FOLDER + queenPlaced).c_str());
+	m_buttonClick = Mix_LoadWAV((SOUND_FOLDER + buttonClick).c_str());
+	m_placePawn = Mix_LoadWAV((SOUND_FOLDER + placePawn).c_str());
+	m_captureTemple = Mix_LoadWAV((SOUND_FOLDER + captureTemple).c_str());
+	m_cardTurn = Mix_LoadWAV((SOUND_FOLDER + cardTurn).c_str());
+
+	playSound(SOUND::BACKGROUND);
 }
 
 void SoundManager::playSound(SOUND sound)
 {
-	Mix_AllocateChannels(4);
+	Mix_AllocateChannels(5);
 
 	switch (sound)
 	{
+	case SOUND::BACKGROUND:
+		Mix_PlayChannel(1, m_backgroundMusic, -1);
+		Mix_Volume(1, 10);
+		break;
+	case SOUND::BUTTON_CLICK:
+		Mix_PlayChannel(2, m_buttonClick, 0);
+		Mix_Volume(2, 10);
+		break;
+	case SOUND::PLACE_PAWN:
+		Mix_PlayChannel(3, m_placePawn, 0);
+		Mix_Volume(3, 10);
+		break;
+	case SOUND::CAPTURE_TEMPLE:
+		Mix_PlayChannel(4, m_captureTemple, 0);
+		Mix_Volume(4, 10);
+		break;
+	case SOUND::CARD_TURN:
+		Mix_PlayChannel(5, m_cardTurn, 0);
+		Mix_Volume(5, 10);
+		break;
 	default:
 		break;
 	}
@@ -52,7 +78,13 @@ void SoundManager::destroy()
 
 	Mix_FreeChunk(m_buttonClick);
 	m_buttonClick = NULL;
-	
-	Mix_FreeChunk(m_placeQueen);
-	m_placeQueen = NULL;
+
+	Mix_FreeChunk(m_placePawn);
+	m_placePawn = NULL;
+
+	Mix_FreeChunk(m_captureTemple);
+	m_captureTemple = NULL;
+
+	Mix_FreeChunk(m_cardTurn);
+	m_cardTurn = NULL;
 }

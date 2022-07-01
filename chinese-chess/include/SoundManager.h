@@ -18,5 +18,7 @@ public:
 private:
 	Mix_Chunk* m_backgroundMusic;
 	Mix_Chunk* m_buttonClick;
-	Mix_Chunk* m_placeQueen;
+	Mix_Chunk* m_placePawn;
+	Mix_Chunk* m_captureTemple;
+	Mix_Chunk* m_cardTurn;
 };

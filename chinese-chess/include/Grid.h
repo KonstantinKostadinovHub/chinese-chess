@@ -20,18 +20,16 @@ public:
 	Grid();
 	~Grid();
 
-	int m_winner = 0;		// shows the winner of the game
-
 	Drawable m_gridSquares[BOARD_SIZE][BOARD_SIZE];
 
 	void load();
 
 	void update();
 	void draw();
-
-	void winCondition();
 	
 	void destroy();
+
+	int checkForWinner(); //returns the winner of the game
 private:
 	SDL_Texture* m_background;
 
@@ -43,12 +41,6 @@ private:
 	Drawable m_hover;		// the drawable for hovering
 
 	Drawable* m_hoverGrid;// the grid that we hover on
-
-	/*
-	vector<Entity*> m_entities;
-	Entity* m_currentEntity = nullptr;
-	int2 m_lastEntityCoordinates;
-	*/
 
 	Card* m_selectedCard;
 	Pawn* m_selectedPawn;
@@ -65,12 +57,17 @@ private:
 
 	int m_onTurn; // 0 - none, pos number - player
 
+	bool m_selected;
+
 	vector<int2> availableMoves(Pawn* pawn, Card* card);
 
 	void loadPawns();
 	void loadCards();
 
 	void select();
+	void selectPawns();
+	void selectCards();
+	void killPawn(int2 coor);
 
 	void checkForClick();
 	void onHover();
@@ -78,10 +75,13 @@ private:
 	void drawHover();
 	void drawGridSquares();
 	void drawPawns();
+	void drawCards();
 	void drawAvailableMoves();
 	void calcAvailableMoves();
 
+	void cardSwitch();
+
 	bool possMove(int2 coor);
 
-	bool m_drawTutorial = false;
+	bool m_drawTutorial;
 };

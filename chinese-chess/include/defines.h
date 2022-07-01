@@ -101,6 +101,11 @@ struct int2
         return b;
     }
 
+    bool operator==(int2 a)
+    {
+        return (x == a.x && y == a.y);
+    }
+
 };
 
 struct float2
@@ -232,5 +237,9 @@ struct DrawableWithOpacity : public Drawable
 enum class SOUND
 {
     NONE = 0,
-
+    BACKGROUND = 1,
+    BUTTON_CLICK = 2,
+    PLACE_PAWN = 3,
+    CAPTURE_TEMPLE = 4,
+    CARD_TURN = 5
 };
