@@ -2,8 +2,6 @@
 
 #include "Presenter.h"
 #include "Validator.h"
-#include "Pawn.h"
-#include "Card.h"
 
 #include <map>
 
@@ -62,7 +60,6 @@ private:
 	vector<int2> availableMoves(Pawn* pawn, Card* card);
 
 	void loadPawns();
-	void loadCards();
 
 	void select();
 	void selectPawns();

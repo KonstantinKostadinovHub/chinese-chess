@@ -16,7 +16,6 @@ Grid::~Grid()
 
 void Grid::load()
 {
-
 	int2 coordinates; // from where do we start
 
 	string temp , player1OnTurn, player2OnTurn, tutorailImg;
@@ -81,12 +80,12 @@ void Grid::load()
 
 	stream.close();
 
-	m_player1Cards[0]->m_moves = { {1, 3} };
-	m_player1Cards[1]->m_moves = { {1, 3} };
-	m_player2Cards[0]->m_moves = { {1, -2} };
-	m_player2Cards[1]->m_moves = { {2, -2} };
-	m_player1nextMove->m_moves = { {2, 0} };
-	m_player2nextMove->m_moves = { {-2, 0} };
+	m_player1Cards[0]->data.m_availableMoves = { {1, 3} };
+	m_player1Cards[1]->data.m_availableMoves = { {1, 3} };
+	m_player2Cards[0]->data.m_availableMoves = { {1, -2} };
+	m_player2Cards[1]->data.m_availableMoves = { {2, -2} };
+	m_player1nextMove->data.m_availableMoves = { {2, 0} };
+	m_player2nextMove->data.m_availableMoves = { {-2, 0} };
 
 	m_player2OnTurn.rect = m_player1OnTurn.rect;
 
@@ -121,7 +120,6 @@ void Grid::load()
 	}
 
 	loadPawns();
-	loadCards();
 }
 
 void Grid::draw()
@@ -190,11 +188,6 @@ void Grid::loadPawns()
 		buff.m_owner = 2;
 		m_player2Pawns.push_back(buff);
 	}
-}
-
-void Grid::loadCards()
-{
-
 }
 
 void Grid::select()
@@ -415,7 +408,7 @@ void Grid::calcAvailableMoves()
 		{
 			if (m_selectedCard != nullptr && m_selectedPawn != nullptr)
 			{
-				for (auto& move : m_selectedCard->m_moves)
+				for (auto& move : m_selectedCard->data.m_availableMoves)
 				{
 					int2 tile = move + m_selectedPawn->m_coor;
 
@@ -431,14 +424,7 @@ void Grid::calcAvailableMoves()
 
 void Grid::cardSwitch()
 {
-	if (m_onTurn == 1)
-	{
-		
-	}
-	else if (m_onTurn == 2)
-	{
-
-	}
+	
 }
 
 /*
@@ -453,7 +439,7 @@ bool Grid::possMove(int2 coor)
 		return false;
 	}
 
-	for (auto& move : m_selectedCard->m_moves)
+	for (auto& move : m_selectedCard->data.m_availableMoves)
 	{
 		if (m_selectedPawn->m_coor + move == coor)
 		{

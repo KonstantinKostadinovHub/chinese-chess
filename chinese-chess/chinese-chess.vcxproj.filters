@@ -54,12 +54,6 @@
     <ClCompile Include="src\ConfigManager.cpp">
       <Filter>src</Filter>
     </ClCompile>
-    <ClCompile Include="src\Card.cpp">
-      <Filter>src</Filter>
-    </ClCompile>
-    <ClCompile Include="src\Pawn.cpp">
-      <Filter>src</Filter>
-    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="include\World.h">
@@ -105,12 +99,6 @@
       <Filter>include</Filter>
     </ClInclude>
     <ClInclude Include="include\ConfigManager.h">
-      <Filter>include</Filter>
-    </ClInclude>
-    <ClInclude Include="include\Card.h">
-      <Filter>include</Filter>
-    </ClInclude>
-    <ClInclude Include="include\Pawn.h">
       <Filter>include</Filter>
     </ClInclude>
   </ItemGroup>

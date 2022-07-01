@@ -213,6 +213,28 @@ struct DrawableWithOpacity : public Drawable
     int changePerFrame = 0;
 };
 
+struct CardData
+{
+    SDL_Texture* texture;
+    SDL_Texture* reversedTexture;
+
+    vector<int2> m_availableMoves;
+};
+
+struct Card : public Drawable
+{
+    CardData data;
+
+    int m_onTurn; // 1 - pl1, 2 - pl2, -1 - pl1 will get the card, -2 - pl2 will get the card
+};
+
+struct Pawn : public Drawable
+{
+    int m_owner; //1 - pl1, 2 - pl2
+
+    int2 m_coor;
+};
+
 enum class SOUND
 {
     NONE = 0,

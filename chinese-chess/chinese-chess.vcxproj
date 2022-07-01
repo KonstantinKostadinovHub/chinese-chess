@@ -145,7 +145,6 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="src\Button.cpp" />
-    <ClCompile Include="src\Card.cpp" />
     <ClCompile Include="src\ConfigManager.cpp" />
     <ClCompile Include="src\Engine.cpp" />
     <ClCompile Include="src\Game.cpp" />
@@ -153,7 +152,6 @@
     <ClCompile Include="src\InputManager.cpp" />
     <ClCompile Include="src\main.cpp" />
     <ClCompile Include="src\Menu.cpp" />
-    <ClCompile Include="src\Pawn.cpp" />
     <ClCompile Include="src\Presenter.cpp" />
     <ClCompile Include="src\SoundManager.cpp" />
     <ClCompile Include="src\State.cpp" />
@@ -164,7 +162,6 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="include\Button.h" />
-    <ClInclude Include="include\Card.h" />
     <ClInclude Include="include\ConfigManager.h" />
     <ClInclude Include="include\defines.h" />
     <ClInclude Include="include\Engine.h" />
@@ -172,7 +169,6 @@
     <ClInclude Include="include\Grid.h" />
     <ClInclude Include="include\InputManager.h" />
     <ClInclude Include="include\Menu.h" />
-    <ClInclude Include="include\Pawn.h" />
     <ClInclude Include="include\Presenter.h" />
     <ClInclude Include="include\SoundManager.h" />
     <ClInclude Include="include\State.h" />

@@ -2,7 +2,6 @@
 
 #include "defines.h"
 
-#include "Pawn.h"
 #include "Presenter.h"
 
 class ConfigManager
@@ -14,7 +13,12 @@ public:
 
 	void load();
 	void loadPawn();
+	void loadCard();
 
 	static SDL_Texture* m_pawn1;
 	static SDL_Texture* m_pawn2;
+
+	static Card* m_card;
+
+	vector<Card*> m_allCards;
 };
