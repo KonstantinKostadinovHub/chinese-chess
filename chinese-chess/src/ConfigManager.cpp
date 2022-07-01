@@ -3,7 +3,6 @@
 
 SDL_Texture* ConfigManager::m_pawn1 = nullptr;
 SDL_Texture* ConfigManager::m_pawn2 = nullptr;
-Card* ConfigManager::m_card = nullptr;
 
 ConfigManager::ConfigManager()
 {
@@ -37,11 +36,13 @@ void ConfigManager::loadCard()
 
 	while (!stream.eof())
 	{
+		CardData _card;
+
 		string name;
 		stream >> name;
 
-		m_card->data.texture = loadTexture(GAME_FOLDER + CARDS_FOLDER + name + ".bmp");
-		m_card->data.reversedTexture = loadTexture(GAME_FOLDER + CARDS_FOLDER + name + "_reversed.bmp");
+		_card.texture = loadTexture(GAME_FOLDER + CARDS_FOLDER + name + ".bmp");
+		_card.reversedTexture = loadTexture(GAME_FOLDER + CARDS_FOLDER + name + "_reversed.bmp");
 
 		string buff;
 		stream >> buff;
@@ -52,11 +53,11 @@ void ConfigManager::loadCard()
 
 			move.x = stoi(buff);
 			stream >> move.y;
-			m_card->data.m_availableMoves.push_back(move);
+			_card.m_availableMoves.push_back(move);
 			stream >> buff;
 		}
 
-		m_allCards.push_back(m_card);
+		m_allCards.push_back(_card);
 	}
 
 	stream.close();
