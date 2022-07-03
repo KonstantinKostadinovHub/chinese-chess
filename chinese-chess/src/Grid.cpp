@@ -82,23 +82,25 @@ void Grid::load()
 
 	stream.close();
 
-	m_player1Cards[0]->data = world.m_config.m_allCards[0];
+	// choose random indexes among the cards
+
+	vector<int> randomIndexes = getRandomIndexes(0,world.m_config.m_allCards.size() - 1, 6);
+
+	m_player1Cards[0]->data = world.m_config.m_allCards[randomIndexes[0]];
 	m_player1Cards[0]->texture = m_player1Cards[0]->data.texture;
 
-	m_player1Cards[1]->data = world.m_config.m_allCards[1];
+	m_player1Cards[1]->data = world.m_config.m_allCards[randomIndexes[1]];
 	m_player1Cards[1]->texture = m_player1Cards[1]->data.texture;
 
-	m_player2Cards[0]->data = world.m_config.m_allCards[2];
-	m_player2Cards[0]->texture = m_player2Cards[0]->data.reversedTexture;
+	m_player2Cards[0]->data = world.m_config.m_allCards[randomIndexes[2]];
+	flipCard(m_player2Cards[0]);
 
-	m_player2Cards[1]->data = world.m_config.m_allCards[3];
-	m_player2Cards[1]->texture = m_player2Cards[1]->data.reversedTexture;
+	m_player2Cards[1]->data = world.m_config.m_allCards[randomIndexes[3]];
+	flipCard(m_player2Cards[1]);
 
-	m_player1nextMove->data = world.m_config.m_allCards[4];
+	m_player1nextMove->data = world.m_config.m_allCards[randomIndexes[4]];
+	flipCard(m_player1nextMove);
 	m_player1nextMove->texture = m_player1nextMove->data.texture;
-
-	m_player2nextMove->data = world.m_config.m_allCards[5];
-	m_player2nextMove->texture = m_player2nextMove->data.reversedTexture;
 
 	m_player2OnTurn.rect = m_player1OnTurn.rect;
 
@@ -152,13 +154,9 @@ void Grid::draw()
 
 void Grid::destroy()
 {
-/*
-	for (int i = 0; i < m_entities.size(); i++)
-	{
-		delete m_entities[i];
-	}
-	m_entities.clear();
-*/
+	m_player1Pawns.clear();
+	m_player2Pawns.clear();
+
 	SDL_DestroyTexture(m_gridSquares[0][0].texture);
 }
 
@@ -176,14 +174,34 @@ void Grid::loadPawns()
 		buff.m_coor.x = i;
 		buff.m_coor.y = 0;
 		buff.rect = m_gridSquares[i][0].rect;
-		buff.texture = ConfigManager::m_pawn1;
+		if (i == 2)
+		{
+			buff.texture = ConfigManager::m_senseiPawn1;
+			buff.isSensei = true;
+		}
+		else
+		{
+			buff.texture = ConfigManager::m_pawn1;
+			buff.isSensei = false;
+		}
+
 		buff.m_owner = 1;
 		m_player1Pawns.push_back(buff);
 
 		buff.m_coor.x = i;
 		buff.m_coor.y = BOARD_SIZE - 1;
 		buff.rect = m_gridSquares[i][BOARD_SIZE - 1].rect;
-		buff.texture = ConfigManager::m_pawn2;
+
+		if (i == 2)
+		{
+			buff.texture = ConfigManager::m_senseiPawn2;
+			buff.isSensei = true;
+		}
+		else
+		{
+			buff.texture = ConfigManager::m_pawn2;
+			buff.isSensei = false;
+		}
 		buff.m_owner = 2;
 		m_player2Pawns.push_back(buff);
 	}
@@ -498,6 +516,41 @@ bool Grid::possMove(int2 coor)
 	return false;
 }
 
+vector<int> Grid::getRandomIndexes(int start, int finish, int amount)
+{
+	vector<int> copy;
+
+	for (int i = start; i <= finish; i++)
+	{
+		copy.push_back(i);
+	}
+
+	vector<int> result;
+
+	while (result.size() != amount)
+	{
+		
+		srand(time(NULL));
+		int randomIndex = 0 + rand() % copy.size();
+
+		result.push_back(copy[randomIndex]);
+		
+		copy.erase(copy.begin() + randomIndex);
+	}
+
+	return result;
+}
+
+void Grid::flipCard(Card* card)
+{
+	card->texture = card->data.reversedTexture;
+
+	for (auto& move : card->data.m_availableMoves)
+	{
+		move.y *= -1;
+	}
+}
+
 int Grid::checkForWinner()
 {
 	// temple win condition
@@ -526,6 +579,38 @@ int Grid::checkForWinner()
 		return 2;
 	}
 	else if (m_player2Pawns.size() == 0)
+	{
+		return 1;
+	}
+
+	// no sensei pawn win condition
+
+	bool hasSensei;
+
+	hasSensei = false;
+	for (int i = 0; i < m_player1Pawns.size(); i++)
+	{
+		if (m_player1Pawns[i].isSensei == true)
+		{
+			hasSensei = true;
+			break;
+		}
+	}
+	if (hasSensei == false)
+	{
+		return 2;
+	}
+
+	hasSensei = false;
+	for (int i = 0; i < m_player2Pawns.size(); i++)
+	{
+		if (m_player2Pawns[i].isSensei == true)
+		{
+			hasSensei = true;
+			break;
+		}
+	}
+	if (hasSensei == false)
 	{
 		return 1;
 	}

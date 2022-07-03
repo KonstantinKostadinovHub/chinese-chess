@@ -80,4 +80,7 @@ private:
 	void cardSwitch();
 
 	bool possMove(int2 coor);
+
+	vector<int> getRandomIndexes(int start, int finish, int amount);
+	void flipCard(Card* card);
 };

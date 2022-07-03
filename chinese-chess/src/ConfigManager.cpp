@@ -1,7 +1,9 @@
 #include "ConfigManager.h"
 #include "World.h"
 
+SDL_Texture* ConfigManager::m_senseiPawn1 = nullptr;
 SDL_Texture* ConfigManager::m_pawn1 = nullptr;
+SDL_Texture* ConfigManager::m_senseiPawn2 = nullptr;
 SDL_Texture* ConfigManager::m_pawn2 = nullptr;
 
 ConfigManager::ConfigManager()
@@ -22,7 +24,9 @@ void ConfigManager::load()
 
 void ConfigManager::loadPawn()
 {
+	m_senseiPawn1 = loadTexture(PAWNS_FOLDER + "senseiPawn1.bmp");
 	m_pawn1 = loadTexture(PAWNS_FOLDER + "pawn1.bmp");
+	m_senseiPawn2 = loadTexture(PAWNS_FOLDER + "senseiPawn2.bmp");
 	m_pawn2 = loadTexture(PAWNS_FOLDER + "pawn2.bmp");
 }
 

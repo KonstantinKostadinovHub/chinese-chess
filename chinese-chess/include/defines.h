@@ -233,6 +233,8 @@ struct Pawn : public Drawable
     int m_owner; //1 - pl1, 2 - pl2
 
     int2 m_coor;
+
+    bool isSensei;
 };
 
 enum class SOUND
