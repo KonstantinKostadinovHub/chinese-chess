@@ -16,7 +16,7 @@ Grid::~Grid()
 {
 }
 
-void Grid::load()
+void Grid::load() 
 {
 	int2 coordinates, cardDim; // from where do we start
 
