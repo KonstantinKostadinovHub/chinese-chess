@@ -19,7 +19,6 @@ public:
 private:
 	Drawable m_winScreenPl1;
 	Drawable m_winScreenPl2;
-	Drawable m_winScreenEnemy;
 	
 	SDL_Texture* m_background;
 	

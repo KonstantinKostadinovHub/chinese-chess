@@ -18,14 +18,14 @@ Grid::~Grid()
 
 void Grid::load()
 {
-	int2 coordinates; // from where do we start
+	int2 coordinates, cardDim; // from where do we start
 
-	string temp , player1OnTurn, player2OnTurn, tutorailImg;
+	string temp , player1OnTurn, player2OnTurn;
+	
 	fstream stream;
 
 	int squareSize;
-	int2 cardDim;
-
+	
 	m_player1Cards[0] = new Card;
 	m_player1Cards[1] = new Card;
 	m_player2Cards[0] = new Card;
@@ -39,8 +39,6 @@ void Grid::load()
 
 	stream >> temp >> m_player1OnTurn.rect.x >> m_player1OnTurn.rect.y >> m_player1OnTurn.rect.w >> m_player1OnTurn.rect.h;
 	stream >> temp >> player1OnTurn >> player2OnTurn;
-	stream >> temp >> m_tutorial.rect.x >> m_tutorial.rect.y >> m_tutorial.rect.w >> m_tutorial.rect.h;
-	stream >> temp >> tutorailImg;
 	
 	stream >> temp >> temp;
 
@@ -84,37 +82,33 @@ void Grid::load()
 
 	stream.close();
 
-	m_player1Cards[0]->data = world.m_config.m_allCards[0];
+	// choose random indexes among the cards
+
+	vector<int> randomIndexes = getRandomIndexes(0,world.m_config.m_allCards.size() - 1, 6);
+
+	m_player1Cards[0]->data = world.m_config.m_allCards[randomIndexes[0]];
 	m_player1Cards[0]->texture = m_player1Cards[0]->data.texture;
 
-	m_player1Cards[1]->data = world.m_config.m_allCards[1];
+	m_player1Cards[1]->data = world.m_config.m_allCards[randomIndexes[1]];
 	m_player1Cards[1]->texture = m_player1Cards[1]->data.texture;
 
-	m_player2Cards[0]->data = world.m_config.m_allCards[2];
-	m_player2Cards[0]->texture = m_player2Cards[0]->data.reversedTexture;
+	m_player2Cards[0]->data = world.m_config.m_allCards[randomIndexes[2]];
+	flipCard(m_player2Cards[0]);
 
-	m_player2Cards[1]->data = world.m_config.m_allCards[3];
-	m_player2Cards[1]->texture = m_player2Cards[1]->data.reversedTexture;
+	m_player2Cards[1]->data = world.m_config.m_allCards[randomIndexes[3]];
+	flipCard(m_player2Cards[1]);
 
-	m_player1nextMove->data = world.m_config.m_allCards[4];
+	m_player1nextMove->data = world.m_config.m_allCards[randomIndexes[4]];
+	flipCard(m_player1nextMove);
 	m_player1nextMove->texture = m_player1nextMove->data.texture;
-
-	m_player2nextMove->data = world.m_config.m_allCards[5];
-	m_player2nextMove->texture = m_player2nextMove->data.reversedTexture;
 
 	m_player2OnTurn.rect = m_player1OnTurn.rect;
 
 	m_player1OnTurn.texture = loadTexture(GAME_FOLDER + player1OnTurn);
 	m_player2OnTurn.texture = loadTexture(GAME_FOLDER + player2OnTurn);
-	m_tutorial.texture = loadTexture(GAME_FOLDER + tutorailImg);
-	
-	m_drawTutorial = false;
-	
+
 	m_availableMove.texture = loadTexture(GAME_FOLDER + "gridPossMove.bmp");
 	m_hover.texture = loadTexture(GAME_FOLDER + "hover.bmp");
-	
-	SDL_Texture* modelSquareTexture;
-	modelSquareTexture = loadTexture(GAME_FOLDER + "tile.bmp");
 	
 	m_background = loadTexture(GAME_FOLDER + "background.bmp");
 
@@ -126,11 +120,7 @@ void Grid::load()
 		for (int c = 0; c < BOARD_SIZE; c++)
 		{
 			m_gridSquares[r][c].rect = { c * squareSize + coordinates.x,
-				r * squareSize + coordinates.y, 
-				squareSize, 
-				squareSize};
-			
-			m_gridSquares[r][c].texture = modelSquareTexture;
+				r * squareSize + coordinates.y, squareSize, squareSize};
 		}
 	}
 
@@ -151,10 +141,6 @@ void Grid::draw()
 
 	drawHover();
 	
-	if (m_drawTutorial)
-	{
-		drawObject(m_tutorial);
-	}
 	
 	if (m_onTurn == 1)
 	{
@@ -168,13 +154,9 @@ void Grid::draw()
 
 void Grid::destroy()
 {
-/*
-	for (int i = 0; i < m_entities.size(); i++)
-	{
-		delete m_entities[i];
-	}
-	m_entities.clear();
-*/
+	m_player1Pawns.clear();
+	m_player2Pawns.clear();
+
 	SDL_DestroyTexture(m_gridSquares[0][0].texture);
 }
 
@@ -192,14 +174,34 @@ void Grid::loadPawns()
 		buff.m_coor.x = i;
 		buff.m_coor.y = 0;
 		buff.rect = m_gridSquares[i][0].rect;
-		buff.texture = ConfigManager::m_pawn1;
+		if (i == 2)
+		{
+			buff.texture = ConfigManager::m_senseiPawn1;
+			buff.isSensei = true;
+		}
+		else
+		{
+			buff.texture = ConfigManager::m_pawn1;
+			buff.isSensei = false;
+		}
+
 		buff.m_owner = 1;
 		m_player1Pawns.push_back(buff);
 
 		buff.m_coor.x = i;
 		buff.m_coor.y = BOARD_SIZE - 1;
 		buff.rect = m_gridSquares[i][BOARD_SIZE - 1].rect;
-		buff.texture = ConfigManager::m_pawn2;
+
+		if (i == 2)
+		{
+			buff.texture = ConfigManager::m_senseiPawn2;
+			buff.isSensei = true;
+		}
+		else
+		{
+			buff.texture = ConfigManager::m_pawn2;
+			buff.isSensei = false;
+		}
 		buff.m_owner = 2;
 		m_player2Pawns.push_back(buff);
 	}
@@ -408,6 +410,7 @@ void Grid::drawCards()
 void Grid::onHover()
 {
 	m_hoverGrid = nullptr;
+	
 	for (int r = 0; r < BOARD_SIZE; r++)
 	{
 		for (int c = 0; c < BOARD_SIZE; c++)
@@ -513,6 +516,41 @@ bool Grid::possMove(int2 coor)
 	return false;
 }
 
+vector<int> Grid::getRandomIndexes(int start, int finish, int amount)
+{
+	vector<int> copy;
+
+	for (int i = start; i <= finish; i++)
+	{
+		copy.push_back(i);
+	}
+
+	vector<int> result;
+
+	while (result.size() != amount)
+	{
+		
+		srand(time(NULL));
+		int randomIndex = 0 + rand() % copy.size();
+
+		result.push_back(copy[randomIndex]);
+		
+		copy.erase(copy.begin() + randomIndex);
+	}
+
+	return result;
+}
+
+void Grid::flipCard(Card* card)
+{
+	card->texture = card->data.reversedTexture;
+
+	for (auto& move : card->data.m_availableMoves)
+	{
+		move.y *= -1;
+	}
+}
+
 int Grid::checkForWinner()
 {
 	// temple win condition
@@ -541,6 +579,38 @@ int Grid::checkForWinner()
 		return 2;
 	}
 	else if (m_player2Pawns.size() == 0)
+	{
+		return 1;
+	}
+
+	// no sensei pawn win condition
+
+	bool hasSensei;
+
+	hasSensei = false;
+	for (int i = 0; i < m_player1Pawns.size(); i++)
+	{
+		if (m_player1Pawns[i].isSensei == true)
+		{
+			hasSensei = true;
+			break;
+		}
+	}
+	if (hasSensei == false)
+	{
+		return 2;
+	}
+
+	hasSensei = false;
+	for (int i = 0; i < m_player2Pawns.size(); i++)
+	{
+		if (m_player2Pawns[i].isSensei == true)
+		{
+			hasSensei = true;
+			break;
+		}
+	}
+	if (hasSensei == false)
 	{
 		return 1;
 	}

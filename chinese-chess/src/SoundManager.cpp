@@ -14,7 +14,7 @@ void SoundManager::init()
 {
 	fstream stream;
 
-	string tmp, background, buttonClick, placePawn, captureTemple, cardTurn;
+	string tmp, background, buttonClick, placePawn, captureTemple, selectPawn;
 
 	stream.open(SOUND_FOLDER + "music.txt");
 
@@ -22,7 +22,7 @@ void SoundManager::init()
 	stream >> tmp >> buttonClick;
 	stream >> tmp >> placePawn;
 	stream >> tmp >> captureTemple;
-	stream >> tmp >> cardTurn;
+	stream >> tmp >> selectPawn;
 	
 	stream.close();
 
@@ -35,7 +35,7 @@ void SoundManager::init()
 	m_buttonClick = Mix_LoadWAV((SOUND_FOLDER + buttonClick).c_str());
 	m_placePawn = Mix_LoadWAV((SOUND_FOLDER + placePawn).c_str());
 	m_captureTemple = Mix_LoadWAV((SOUND_FOLDER + captureTemple).c_str());
-	m_cardTurn = Mix_LoadWAV((SOUND_FOLDER + cardTurn).c_str());
+	m_selectPawn = Mix_LoadWAV((SOUND_FOLDER + selectPawn).c_str());
 
 	playSound(SOUND::BACKGROUND);
 }
@@ -62,8 +62,8 @@ void SoundManager::playSound(SOUND sound)
 		Mix_PlayChannel(4, m_captureTemple, 0);
 		Mix_Volume(4, 10);
 		break;
-	case SOUND::CARD_TURN:
-		Mix_PlayChannel(5, m_cardTurn, 0);
+	case SOUND::SELECT_PAWN:
+		Mix_PlayChannel(5, m_selectPawn, 0);
 		Mix_Volume(5, 10);
 		break;
 	default:
@@ -85,6 +85,6 @@ void SoundManager::destroy()
 	Mix_FreeChunk(m_captureTemple);
 	m_captureTemple = NULL;
 
-	Mix_FreeChunk(m_cardTurn);
-	m_cardTurn = NULL;
+	Mix_FreeChunk(m_selectPawn);
+	m_selectPawn = NULL;
 }

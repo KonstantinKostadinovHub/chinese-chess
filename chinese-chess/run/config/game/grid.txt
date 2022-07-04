@@ -4,10 +4,6 @@ Player_On_Turn: 1514 712 290 290
 
 Plyaer_1_And_2_On_Turn: player1OnTurn.bmp player2OnTurn.bmp
 
-Tutorial_Rect: 25 88 420 757
-
-Tutorial_Img: tutorial.bmp
-
 drawSelectedPawn: selectedPawn.bmp
 drawSelectedCard: selectedCard.bmp
 

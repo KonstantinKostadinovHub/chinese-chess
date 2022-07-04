@@ -15,7 +15,7 @@ void Game::init()
 
 void Game::destroy()
 {
-	
+	m_grid.destroy();
 }
 
 void Game::run()
