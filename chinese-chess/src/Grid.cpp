@@ -630,5 +630,8 @@ void Grid::update()
 	{
 		// go to the next scene
 		world.m_stateManager.changeGameState(GAME_STATE::WIN_SCREEN);
+
+		m_player1Pawns.clear();
+		m_player2Pawns.clear();
 	}
 }
