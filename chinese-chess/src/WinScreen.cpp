@@ -68,7 +68,7 @@ void WinScreen::run()
 		{
 			world.m_soundManager.playSound(SOUND::BUTTON_CLICK);
 
-			world.m_stateManager.changeGameState(GAME_STATE::GAME);
+			world.m_stateManager.changeGameState(GAME_STATE::MENU);
 
 			return;
 		}
