@@ -53,8 +53,6 @@ void Menu::run()
 
 		if (m_popUp->m_easyBtn->m_isClicked)
 		{
-			world.m_soundManager.playSound(SOUND::BUTTON_CLICK);
-
 			world.m_stateManager.m_game->m_grid.m_gameType = 1;
 			
 			world.m_stateManager.changeGameState(GAME_STATE::GAME);
@@ -62,8 +60,6 @@ void Menu::run()
 
 		if (m_popUp->m_hardBtn->m_isClicked)
 		{
-			world.m_soundManager.playSound(SOUND::BUTTON_CLICK);
-
 			world.m_stateManager.m_game->m_grid.m_gameType = 2;
 			
 			world.m_stateManager.changeGameState(GAME_STATE::GAME);
@@ -74,8 +70,6 @@ void Menu::run()
 	{
 		if (isMouseInRect(m_twoPlayersBtn.getRect()))
 		{
-			world.m_soundManager.playSound(SOUND::BUTTON_CLICK);
-
 			world.m_stateManager.m_game->m_grid.m_gameType = 0;
 			
 			world.m_stateManager.changeGameState(GAME_STATE::GAME);
@@ -84,9 +78,7 @@ void Menu::run()
 		}
 
 		if (isMouseInRect(m_onePlayerBtn.getRect()))
-		{
-			world.m_soundManager.playSound(SOUND::BUTTON_CLICK);
-			
+		{			
 			m_popUp = new PopUp();
 
 			m_popUp->init();
@@ -96,8 +88,6 @@ void Menu::run()
 		
 		if (isMouseInRect(m_exitBtn.getRect()))
 		{
-			world.m_soundManager.playSound(SOUND::BUTTON_CLICK);
-
 			world.m_stateManager.changeGameState(GAME_STATE::NONE);
 
 			return;

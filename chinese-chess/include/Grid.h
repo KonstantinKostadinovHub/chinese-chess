@@ -32,7 +32,6 @@ public:
 
 	int checkForWinner(); //returns the winner of the game
 
-	void clear();
 private:
 	SDL_Texture* m_background;
 

@@ -804,8 +804,6 @@ void Grid::hardBot() {
 	pawn = (*idx).pawn;
 	card = (*idx).card;
 
-	cout << "AImove: " << (*idx).priority << endl;
-
 	m_selectedPawn = & m_player2Pawns[pawn];
 	m_selectedCard = m_player2Cards[card];
 	m_drawSelectedCard.rect = m_selectedCard->rect;
@@ -851,9 +849,16 @@ void Grid::update()
 		calcAvailableMoves();
 
 		winner = checkForWinner();
+		
 		if (winner)
 		{
+			if (m_gameType != 0 && winner != 1)
+			{
+				winner *= -1;
+			}
+			
 			world.m_stateManager.changeGameState(GAME_STATE::WIN_SCREEN);
+			
 			m_player1Pawns.clear();
 			m_player2Pawns.clear();
 		}
