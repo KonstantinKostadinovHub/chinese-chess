@@ -1,6 +1,7 @@
 #include "Grid.h"
 
 #include <assert.h> /* assert */
+#include <set> /* set */
 
 #include "World.h"
 
@@ -15,6 +16,8 @@ Grid::Grid()
 Grid::~Grid()
 {
 }
+
+bool wait = false;
 
 void Grid::load() 
 {
@@ -123,6 +126,8 @@ void Grid::load()
 				r * squareSize + coordinates.y, squareSize, squareSize};
 		}
 	}
+
+	winner = 0;
 
 	loadPawns();
 }
@@ -240,7 +245,7 @@ void Grid::selectPawns()
 			}
 		}
 	}
-	else if (m_onTurn == 2)
+	else if (m_gameType == 0 && m_onTurn == 2)
 	{
 		for (int i = 0; i < m_player2Pawns.size(); i++)
 		{
@@ -302,7 +307,7 @@ void Grid::selectCards()
 			}
 		}
 	}
-	else if (m_onTurn == 2)
+	else if (m_gameType == 0 && m_onTurn == 2)
 	{
 		for (int i = 0; i < 2; i++)
 		{
@@ -576,6 +581,7 @@ int Grid::checkForWinner()
 	// no pawns win condition
 	if (m_player1Pawns.size() == 0)
 	{
+		cout << "no pawns win condition\n";
 		return 2;
 	}
 	else if (m_player2Pawns.size() == 0)
@@ -618,20 +624,238 @@ int Grid::checkForWinner()
 	return 0;
 }
 
+void Grid::easyBot() {
+
+	vector<pair<int2, pair<int,int>>> possMoves;
+	for (int i = 0; i < m_player2Pawns.size(); i++)
+	{
+		for (int card = 0; card < 2; card++)
+		{
+			for (auto& move : m_player2Cards[card]->data.m_availableMoves)
+			{
+				int2 tile = move + m_player2Pawns[i].m_coor;
+
+				// check if we are in the board
+				if (tile.x >= 0 && tile.y >= 0
+					&& tile.x < BOARD_SIZE && tile.y < BOARD_SIZE)
+				{
+					bool pawnThere = false;
+					for (int k = 0; k < m_player2Pawns.size(); k++)
+					{
+						if (m_player2Pawns[k].m_coor == tile)
+						{
+							pawnThere = true;
+							break;
+						}
+					}
+					if(!pawnThere) possMoves.push_back(make_pair(tile, make_pair(i, card)));
+				}
+			}
+		}
+	}
+
+	int idx = rand() % possMoves.size();
+	int r = possMoves[idx].first.x;
+	int c = possMoves[idx].first.y;
+	int pawn = possMoves[idx].second.first;
+	int card = possMoves[idx].second.second;
+
+	m_selectedPawn = & m_player2Pawns[pawn];
+	m_selectedCard = m_player2Cards[card];
+	m_drawSelectedCard.rect = m_selectedCard->rect;
+
+	killPawn({r, c});
+	m_selectedPawn->m_coor.x = r;
+	m_selectedPawn->m_coor.y = c;
+
+	m_selectedPawn->rect = m_gridSquares[r][c].rect;
+
+	cardSwitch();
+
+	m_onTurn = (m_onTurn == 1) + 1;
+
+	m_selectedPawn = nullptr;
+	m_selectedCard = nullptr;
+}
+
+void Grid::hardBot() {
+
+	set<AImove> allMoves;
+	/*  Priorities:
+		7 - winning move
+		6 - a move that saves my sensei and takes a pawn
+		5 - a move that saves my sensei
+		4 - a move that saves my pawn and takes a pawn
+		3 - a move that saves my pawn
+		2 - a move that takes a pawn
+		1 - a move that does not threathen my pawn
+		0 - just a move
+	*/ 
+
+	// determine which tiles would be deadly for me to step on
+	set<pair<int,int>> dangerousTiles;
+	for (int k = 0; k < m_player1Pawns.size(); k++)
+	{
+		for (int l = 0; l < 2; l++)
+		{
+			for (auto& move2 : m_player1Cards[l]->data.m_availableMoves)
+			{
+				int2 tile2 = move2 + m_player1Pawns[k].m_coor;
+				dangerousTiles.insert(make_pair(tile2.x, tile2.y));
+			}
+		}
+	}
+
+	for (int i = 0; i < m_player2Pawns.size(); i++)
+	{
+		// check if pawn is threatened right now
+		bool isThreatenedNow = false;
+		auto pos = dangerousTiles.find(make_pair(m_player2Pawns[i].m_coor.x, m_player2Pawns[i].m_coor.y));
+		if (pos != dangerousTiles.end()) isThreatenedNow = true;
+		for (int card = 0; card < 2; card++)
+		{
+			for (auto& move : m_player2Cards[card]->data.m_availableMoves)
+			{
+				int2 tile = move + m_player2Pawns[i].m_coor;
+
+				// check if we are in the board
+				if (tile.x >= 0 && tile.y >= 0
+					&& tile.x < BOARD_SIZE && tile.y < BOARD_SIZE)
+				{
+
+					// check if my pawn is on this tile
+					bool pawnThere = false;
+					for (int k = 0; k < m_player2Pawns.size(); k++)
+					{
+						if (m_player2Pawns[k].m_coor == tile)
+						{
+							pawnThere = true;
+							break;
+						}
+					}
+					if (!pawnThere)
+					{
+						bool pawnThere = false;
+						for (int k = 0; k < m_player1Pawns.size(); k++)
+						{
+							// check if this move can threaten my pawn
+							bool isThreatened = false;
+							auto pos = dangerousTiles.find(make_pair(tile.x, tile.y));
+							if (pos != dangerousTiles.end()) isThreatened = true;
+
+							// check if with this move can I can step in temple
+							if (tile.x == 2 && tile.y == 0)
+							{
+								allMoves.insert(AImove(7, tile, i, card));
+								continue;
+							}
+
+							// check if this move can kill a pawn
+							if (m_player1Pawns[k].m_coor == tile)
+							{
+								if (m_player1Pawns[k].isSensei)
+								{
+									allMoves.insert(AImove(7, tile, i, card));
+									continue;
+								}
+								if ((m_player2Pawns[i].isSensei && !isThreatened) || !m_player2Pawns[i].isSensei)
+								{
+									pawnThere = true;
+									if (isThreatenedNow)
+									{
+										if(m_player2Pawns[i].isSensei)
+											allMoves.insert(AImove(6, tile, i, card));
+										else
+											allMoves.insert(AImove(4, tile, i, card));
+									}
+									allMoves.insert(AImove(2, tile, i, card));
+									continue;
+								}
+							}
+
+							// check if this move would do absolutely no harm to any team
+							else if (!isThreatened)
+							{
+								pawnThere = true;
+								if (isThreatenedNow)
+								{
+									if (m_player2Pawns[i].isSensei)
+										allMoves.insert(AImove(5, tile, i, card));
+									else
+										allMoves.insert(AImove(3, tile, i, card));
+								}
+								allMoves.insert(AImove(1, tile, i, card));
+								continue;
+							}
+						}
+						//add move as possible although it might be dangerous
+						allMoves.insert(AImove(0, tile, i, card));
+					}
+				}
+			}
+		}
+	}
+
+	int r, c, pawn, card;
+	auto idx = allMoves.end();
+	idx --;
+	r = (*idx).tile.x;
+	c = (*idx).tile.y;
+	pawn = (*idx).pawn;
+	card = (*idx).card;
+
+	cout << "AImove: " << (*idx).priority << endl;
+
+	m_selectedPawn = & m_player2Pawns[pawn];
+	m_selectedCard = m_player2Cards[card];
+	m_drawSelectedCard.rect = m_selectedCard->rect;
+
+	killPawn({r, c});
+	m_selectedPawn->m_coor.x = r;
+	m_selectedPawn->m_coor.y = c;
+
+	m_selectedPawn->rect = m_gridSquares[r][c].rect;
+
+	cardSwitch();
+
+	m_onTurn = (m_onTurn == 1) + 1;
+
+	m_hoverGrid = nullptr;
+	m_selectedPawn = nullptr;
+	m_selectedCard = nullptr;
+	m_selected = false;
+}
+
 void Grid::update()
 {
-	onHover();
-
-	checkForClick();
-	select();
-	calcAvailableMoves();
-
-	if (checkForWinner())
+	if (!winner)
 	{
-		// go to the next scene
-		world.m_stateManager.changeGameState(GAME_STATE::WIN_SCREEN);
+		onHover();
 
-		m_player1Pawns.clear();
-		m_player2Pawns.clear();
+		if (wait) { SDL_Delay(2000); wait = false; }
+
+		if (m_gameType == 1 && m_onTurn == 2)
+		{
+			SDL_Delay(1500);
+			easyBot();
+		}
+		else if (m_gameType == 2 && m_onTurn == 2)
+		{
+			SDL_Delay(1000);
+			hardBot();
+			wait = true;
+		}
+
+		checkForClick();
+		select();
+		calcAvailableMoves();
+
+		winner = checkForWinner();
+		if (winner)
+		{
+			world.m_stateManager.changeGameState(GAME_STATE::WIN_SCREEN);
+			m_player1Pawns.clear();
+			m_player2Pawns.clear();
+		}
 	}
 }

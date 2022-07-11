@@ -44,7 +44,7 @@ void WinScreen::run()
 {	
 	drawObject(m_background);
 
-	switch (world.m_stateManager.m_game->m_grid.checkForWinner())
+	switch (world.m_stateManager.m_game->m_grid.winner)
 	{
 	case 1:
 		drawObject(m_winScreenPl1);
@@ -67,7 +67,6 @@ void WinScreen::run()
 		if (isMouseInRect(m_playBtn.getRect()))
 		{
 			world.m_soundManager.playSound(SOUND::BUTTON_CLICK);
-
 			world.m_stateManager.changeGameState(GAME_STATE::MENU);
 
 			return;

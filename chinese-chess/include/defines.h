@@ -99,11 +99,32 @@ struct int2
         return b;
     }
 
-    bool operator==(int2 a)
+    bool operator==(const int2 a) const
     {
         return (x == a.x && y == a.y);
     }
 
+};
+
+struct AImove
+{
+    int priority = 0;
+    int2 tile;
+    int pawn = 0;
+    int card = 0;
+
+    AImove(int a, int2 b, int c, int d)
+    {
+        priority = a;
+        tile = b;
+        pawn = c;
+        card = d;
+    }
+
+    bool operator<(const AImove a) const
+    {
+        return priority < a.priority;
+    }
 };
 
 struct float2

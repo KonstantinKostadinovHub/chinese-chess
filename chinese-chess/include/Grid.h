@@ -18,6 +18,9 @@ public:
 	Grid();
 	~Grid();
 
+	int winner = 0;
+	int m_gameType; // 0 - 2 players   1 - easy bot   2 - hard bot
+
 	Drawable m_gridSquares[BOARD_SIZE][BOARD_SIZE];
 
 	void load();
@@ -28,6 +31,8 @@ public:
 	void destroy();
 
 	int checkForWinner(); //returns the winner of the game
+
+	void clear();
 private:
 	SDL_Texture* m_background;
 
@@ -83,4 +88,7 @@ private:
 
 	vector<int> getRandomIndexes(int start, int finish, int amount);
 	void flipCard(Card* card);
+
+	void easyBot();
+	void hardBot();
 };

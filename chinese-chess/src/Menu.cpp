@@ -55,7 +55,8 @@ void Menu::run()
 		{
 			world.m_soundManager.playSound(SOUND::BUTTON_CLICK);
 
-			world.m_stateManager.m_game->gameMode = -1;
+			world.m_stateManager.m_game->m_grid.m_gameType = 1;
+			
 			world.m_stateManager.changeGameState(GAME_STATE::GAME);
 		}
 
@@ -63,7 +64,8 @@ void Menu::run()
 		{
 			world.m_soundManager.playSound(SOUND::BUTTON_CLICK);
 
-			world.m_stateManager.m_game->gameMode = -2;
+			world.m_stateManager.m_game->m_grid.m_gameType = 2;
+			
 			world.m_stateManager.changeGameState(GAME_STATE::GAME);
 		}
 	}
@@ -74,6 +76,8 @@ void Menu::run()
 		{
 			world.m_soundManager.playSound(SOUND::BUTTON_CLICK);
 
+			world.m_stateManager.m_game->m_grid.m_gameType = 0;
+			
 			world.m_stateManager.changeGameState(GAME_STATE::GAME);
 
 			return;
