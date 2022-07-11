@@ -60,6 +60,9 @@
     <ClCompile Include="src\State.cpp">
       <Filter>src\STATES</Filter>
     </ClCompile>
+    <ClCompile Include="src\PopUp.cpp">
+      <Filter>src</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="include\World.h">
@@ -106,6 +109,9 @@
     </ClInclude>
     <ClInclude Include="include\WinScreen.h">
       <Filter>include\STATES</Filter>
+    </ClInclude>
+    <ClInclude Include="include\PopUp.h">
+      <Filter>include</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

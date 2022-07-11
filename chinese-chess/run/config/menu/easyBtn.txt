@@ -1,0 +1,7 @@
+Path: easy.bmp
+
+Start_Rect: 470 620 420 100
+
+Max_Increase: 30
+
+Increase_Per_Frame: 5

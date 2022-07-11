@@ -1,0 +1,7 @@
+easyBtn: easyBtn.txt
+
+midBtn: hardBtn.txt
+
+Difficulty_Rect: 360 400 1200 400
+
+Difficutly_Img: chooseDifficulty.bmp

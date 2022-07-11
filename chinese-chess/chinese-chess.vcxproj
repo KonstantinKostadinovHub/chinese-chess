@@ -153,6 +153,7 @@
     <ClCompile Include="src\InputManager.cpp" />
     <ClCompile Include="src\main.cpp" />
     <ClCompile Include="src\Menu.cpp" />
+    <ClCompile Include="src\PopUp.cpp" />
     <ClCompile Include="src\Presenter.cpp" />
     <ClCompile Include="src\SoundManager.cpp" />
     <ClCompile Include="src\State.cpp" />
@@ -170,6 +171,7 @@
     <ClInclude Include="include\Grid.h" />
     <ClInclude Include="include\InputManager.h" />
     <ClInclude Include="include\Menu.h" />
+    <ClInclude Include="include\PopUp.h" />
     <ClInclude Include="include\Presenter.h" />
     <ClInclude Include="include\SoundManager.h" />
     <ClInclude Include="include\State.h" />

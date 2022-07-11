@@ -1,5 +1,7 @@
 Menu_Img: menu.bmp
 
-Play_Path: playBtn.txt
-
 Exit_path: exitBtn.txt
+
+One_Player_Path: onePlayerBtn.txt
+
+Two_Player_Path: twoPlayersBtn.txt
