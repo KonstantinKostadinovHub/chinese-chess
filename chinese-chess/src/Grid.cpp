@@ -41,6 +41,7 @@ void Grid::load()
 	stream >> temp >> squareSize;
 
 	stream >> temp >> m_player1OnTurn.rect.x >> m_player1OnTurn.rect.y >> m_player1OnTurn.rect.w >> m_player1OnTurn.rect.h;
+	stream >> temp >> m_player2OnTurn.rect.x >> m_player2OnTurn.rect.y >> m_player2OnTurn.rect.w >> m_player2OnTurn.rect.h;
 	stream >> temp >> player1OnTurn >> player2OnTurn;
 	
 	stream >> temp >> temp;
@@ -104,8 +105,6 @@ void Grid::load()
 	m_player1nextMove->data = world.m_config.m_allCards[randomIndexes[4]];
 	flipCard(m_player1nextMove);
 	m_player1nextMove->texture = m_player1nextMove->data.texture;
-
-	m_player2OnTurn.rect = m_player1OnTurn.rect;
 
 	m_player1OnTurn.texture = loadTexture(GAME_FOLDER + player1OnTurn);
 	m_player2OnTurn.texture = loadTexture(GAME_FOLDER + player2OnTurn);
