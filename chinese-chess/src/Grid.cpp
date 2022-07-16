@@ -21,6 +21,8 @@ bool wait = false;
 
 void Grid::load() 
 {
+	m_onTurn = 1;
+
 	int2 coordinates, cardDim; // from where do we start
 
 	string temp , player1OnTurn, player2OnTurn;
